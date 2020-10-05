@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 @RequiredArgsConstructor
 @Service
@@ -39,7 +40,20 @@ public class MemberService {
             jsonObject = ObjectMaker.getJSONObjectWithException(exception);
         }
         return jsonObject;
+    }
 
+    public org.json.simple.JSONObject logout(HttpServletRequest request){
+        org.json.simple.JSONObject jsonObject = ObjectMaker.getSimpleJSONObject();
+        try {
+            HttpSession session = request.getSession(false);
+            session.setAttribute("result", false);
+            session.invalidate();
+            jsonObject.put("errno", 0);
+            jsonObject.put("message", "로그아웃이 완료되었습니다.");
+        } catch(Exception exception) {
+            jsonObject = ObjectMaker.getJSONObjectWithException(exception);
+        }
+        return jsonObject;
     }
 
 }

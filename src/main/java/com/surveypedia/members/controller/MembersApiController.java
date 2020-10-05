@@ -21,4 +21,9 @@ public class MembersApiController {
     public void login(@RequestBody MemberLoginRequestDto requestDto, HttpServletRequest request, HttpServletResponse response) {
         WriteToClient.send(response, memberService.login(requestDto.getEmail(), requestDto.getPass(), request));
     }
+
+    @PostMapping("/Logout.do")
+    public void logout(HttpServletRequest request, HttpServletResponse response) {
+        WriteToClient.send(response, memberService.logout(request));
+    }
 }
