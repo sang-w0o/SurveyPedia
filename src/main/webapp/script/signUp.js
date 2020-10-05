@@ -46,12 +46,12 @@ $.fn.btnRegisterClick = function(){
 		$.ajax({
 			url:'../MemberInsert.do',
 			type:'post',
-			data:{
+			data:JSON.stringify({
 				email:$('#email').val(),
 				nick:$('#nick').val(),
-				pass1:$('#pass1').val(),
-				pass2:$('#pass2').val()
-			},
+				pass:$('#pass1').val()
+			}),
+			contentType: 'application/json',
 			success:function(data){
 				alert(data.message);
 				if(data.result){
@@ -80,9 +80,10 @@ $.fn.btnCheckEmailClick = function(){
 		$.ajax({
 			url:'../MemberEmailCheck.do',
 			type:'post',
-			data:{
+			data:JSON.stringify({
 				email:$('#email').val(),
-			},
+			}),
+			contentType: 'application/json',
 			success:function(data){
 				alert(data.message);
 				if(data.result){
@@ -107,9 +108,10 @@ $.fn.btnCheckNickClick = function(){
 		$.ajax({
 			url:'../MemberNickCheck.do',
 			type:'post',
-			data:{
+			data:JSON.stringify({
 				nick:$('#nick').val(),
-			},
+			}),
+			contentType: 'application/json',
 			success:function(data){
 				alert(data.message);
 				if(data.result){

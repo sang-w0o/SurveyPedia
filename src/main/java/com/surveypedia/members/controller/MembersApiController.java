@@ -1,5 +1,6 @@
 package com.surveypedia.members.controller;
 
+import com.surveypedia.members.dto.MemberInsertRequestDto;
 import com.surveypedia.members.dto.MemberLoginRequestDto;
 import com.surveypedia.members.dto.MemberPassUpdateRequestDto;
 import com.surveypedia.members.service.MemberService;
@@ -32,5 +33,20 @@ public class MembersApiController {
     @PutMapping("/MemberPassChange.do")
     public void changePassword(@RequestBody MemberPassUpdateRequestDto requestDto, HttpServletRequest request, HttpServletResponse response) {
         WriteToClient.send(response, memberService.changePassword(requestDto, request));
+    }
+
+    @PostMapping("/MemberEmailCheck.do")
+    public void checkEmail(@RequestBody String email, HttpServletResponse response) {
+        WriteToClient.send(response, memberService.checkEmail(email));
+    }
+
+    @PostMapping("/MemberNickCheck.do")
+    public void checkNick(@RequestBody String nick, HttpServletResponse response) {
+        WriteToClient.send(response, memberService.checkNick(nick));
+    }
+
+    @PostMapping("/MemberInsert.do")
+    public void signUp(@RequestBody MemberInsertRequestDto requestDto, HttpServletResponse response) {
+        WriteToClient.send(response, memberService.signUp(requestDto));
     }
 }

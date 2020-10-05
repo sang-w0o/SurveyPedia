@@ -16,4 +16,12 @@ public interface MembersRepository extends JpaRepository<Members, String> {
     @Modifying
     @Query(value = SQL.Members.MEMBER_PASS_UPDATE, nativeQuery = true)
     void changePass(String pass, String email);
+
+    @Transactional
+    @Modifying
+    @Query(value = SQL.Members.MEMBER_SIGNUP, nativeQuery = true)
+    void signUp(String email, String pass, String nick);
+
+    Members findByEmail(String email);
+    Members findByNick(String nick);
 }

@@ -4,10 +4,9 @@ import com.surveypedia.domain.members.Members;
 import com.surveypedia.domain.members.MembersRepository;
 import com.surveypedia.domain.withdrawed.Withdrawed;
 import com.surveypedia.domain.withdrawed.WithdrawedRepository;
+import com.surveypedia.members.dto.MemberInsertRequestDto;
 import com.surveypedia.members.dto.MemberPassUpdateRequestDto;
-import com.surveypedia.members.exception.MemberException;
-import com.surveypedia.members.exception.MemberLoginException;
-import com.surveypedia.members.exception.MemberWithdrawLoginException;
+import com.surveypedia.members.exception.*;
 import com.surveypedia.tools.ObjectMaker;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -77,4 +76,40 @@ public class MemberService {
         return jsonObject;
     }
 
+    public org.json.simple.JSONObject checkEmail(String email) {
+        org.json.simple.JSONObject jsonObject = ObjectMaker.getSimpleJSONObject();
+        try {
+            Members member = membersRepository.findByEmail(email);
+            if(member != null) throw new MemberEmailAlreadyInUseException();
+            jsonObject.put("result", true);
+            jsonObject.put("message", "사용 가능한 이메일 입니다.");
+        } catch(MemberEmailAlreadyInUseException exception) {
+            jsonObject = ObjectMaker.getJSONObjectWithException(exception);
+        }
+        return jsonObject;
+    }
+
+    public org.json.simple.JSONObject checkNick(String nick) {
+        org.json.simple.JSONObject jsonObject = ObjectMaker.getSimpleJSONObject();
+        try {
+            Members member = membersRepository.findByNick(nick);
+            if(member != null) throw new MemberNickAlreadyInUseException();
+            jsonObject.put("result", true);
+            jsonObject.put("message", "사용 가능한 별명 입니다.");
+        } catch(MemberNickAlreadyInUseException exception) {
+            jsonObject = ObjectMaker.getJSONObjectWithException(exception);
+        }
+        return jsonObject;
+    }
+    public org.json.simple.JSONObject signUp(MemberInsertRequestDto requestDto) {
+        org.json.simple.JSONObject jsonObject = ObjectMaker.getSimpleJSONObject();
+        try {
+            membersRepository.signUp(requestDto.getEmail(), requestDto.getPass(), requestDto.getNick());
+            jsonObject.put("result", true);
+            jsonObject.put("message", "회원 가입에 성공했습니다. 로그인 해 주세요!");
+        } catch(Exception exception) {
+            jsonObject = ObjectMaker.getJSONObjectWithException(new Exception("알 수 없는 오류로 회원 가입에 실패했습니다."));
+        }
+        return jsonObject;
+    }
 }
