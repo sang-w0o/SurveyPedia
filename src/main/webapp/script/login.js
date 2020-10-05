@@ -13,14 +13,15 @@ $.fn.bindLogin = function() {
 			$('#pass').val('').focus();
 			return;
 		}
-				
+
 		$.ajax({
 			url: '../Login.do',
 			type: 'post',
-			data: {
+			data: JSON.stringify({
 				email: $('#email').val(),
 				pass: $('#pass').val()
-			},
+			}),
+			contentType: 'application/json',
 			success: function(data) {
 				alert(data.message);
 				switch(data.errno){
