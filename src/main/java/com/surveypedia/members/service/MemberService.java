@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 @RequiredArgsConstructor
@@ -110,6 +111,15 @@ public class MemberService {
         } catch(Exception exception) {
             jsonObject = ObjectMaker.getJSONObjectWithException(new Exception("알 수 없는 오류로 회원 가입에 실패했습니다."));
         }
+        return jsonObject;
+    }
+
+    public org.json.simple.JSONObject getPoint(HttpServletRequest request) {
+        Members member = (Members)request.getSession(false).getAttribute("userInfo");
+        Integer point = membersRepository.getPoint(member.getEmail());
+        org.json.simple.JSONObject jsonObject = ObjectMaker.getSimpleJSONObject();
+        jsonObject.put("result", true);
+        jsonObject.put("point", point);
         return jsonObject;
     }
 }

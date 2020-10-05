@@ -24,4 +24,7 @@ public interface MembersRepository extends JpaRepository<Members, String> {
 
     Members findByEmail(String email);
     Members findByNick(String nick);
+
+    @Query(value = SQL.Members.MEMBER_POINT, nativeQuery = true)
+    Integer getPoint(String email);
 }

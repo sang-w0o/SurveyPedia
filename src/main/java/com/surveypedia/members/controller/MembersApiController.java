@@ -6,10 +6,7 @@ import com.surveypedia.members.dto.MemberPassUpdateRequestDto;
 import com.surveypedia.members.service.MemberService;
 import com.surveypedia.tools.WriteToClient;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -48,5 +45,10 @@ public class MembersApiController {
     @PostMapping("/MemberInsert.do")
     public void signUp(@RequestBody MemberInsertRequestDto requestDto, HttpServletResponse response) {
         WriteToClient.send(response, memberService.signUp(requestDto));
+    }
+
+    @GetMapping("/MemberMyPageUpdate.do")
+    public void getPoint(HttpServletRequest request, HttpServletResponse response) {
+        WriteToClient.send(response, memberService.getPoint(request));
     }
 }
