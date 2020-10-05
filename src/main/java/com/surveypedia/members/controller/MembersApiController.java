@@ -36,13 +36,13 @@ public class MembersApiController {
     }
 
     @PostMapping("/MemberEmailCheck.do")
-    public void checkEmail(@RequestBody String email, HttpServletResponse response) {
-        WriteToClient.send(response, memberService.checkEmail(email));
+    public void checkEmail(@RequestBody MemberInsertRequestDto requestDto, HttpServletResponse response) {
+        WriteToClient.send(response, memberService.checkEmail(requestDto.getEmail()));
     }
 
     @PostMapping("/MemberNickCheck.do")
-    public void checkNick(@RequestBody String nick, HttpServletResponse response) {
-        WriteToClient.send(response, memberService.checkNick(nick));
+    public void checkNick(@RequestBody MemberInsertRequestDto requestDto, HttpServletResponse response) {
+        WriteToClient.send(response, memberService.checkNick(requestDto.getNick()));
     }
 
     @PostMapping("/MemberInsert.do")

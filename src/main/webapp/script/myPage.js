@@ -5,12 +5,10 @@ $.fn.bindLogout = function() {
 				url: '../Logout.do',
 				type: 'post',
 				success: function(data) {
-					// 로그아웃 성공
 				if (data.errno == 0) {
 					alert(data.message);
 					location.href = 'index.jsp';
 				}
-				// 로그아웃 실패
 				else {
 					alert(data.message);
 				}
@@ -27,11 +25,15 @@ $.fn.bindWithdraw = function(){
 			$.ajax({
 				url:'../MemberWithdrawInsert.do',
 				type:'post',
-				data:{
+				data:JSON.stringify({
 					pass:password
-				}	
+				}),
+				contentType: 'application/json',
 			}).done(function(data){
 				alert(data.message);
+				if(data.result) {
+					location.href = "index.jsp";
+				}
 				location.reload();
 			});
 		}
