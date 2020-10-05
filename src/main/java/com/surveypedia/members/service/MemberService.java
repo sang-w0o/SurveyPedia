@@ -26,6 +26,11 @@ public class MemberService {
     @SuppressWarnings("unchecked")
     public org.json.simple.JSONObject login(String email, String pass, HttpServletRequest request) {
         org.json.simple.JSONObject jsonObject = ObjectMaker.getSimpleJSONObject();
+        if(email.equals("admin@surveypro.com")) {
+            jsonObject.put("errno", 2);
+            jsonObject.put("message", "관리자 페이지로 이동합니다.");
+            return jsonObject;
+        }
         try {
             Withdrawed withdrawed = withdrawedRepository.findByEmail(email);
             if (withdrawed != null) throw new MemberWithdrawLoginException();

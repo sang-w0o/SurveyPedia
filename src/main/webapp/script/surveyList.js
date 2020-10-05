@@ -1,14 +1,11 @@
 function showList() {
 	
 	$.ajax({
-		url: '../SurveyGetSurveyInfo.do',
-		type: 'post', 
-		data: {
-			msg: 'deadLine'
-		},
+		url: '../SurveyGetSurveyInfo.do?type=deadLine',
+		type: 'get',
 		success: function(data) {
 			if (data.errno != 0) {
-				console.log(data.message);
+				console.log(data);
 				return;
 			}
 			
@@ -34,14 +31,11 @@ function showList() {
 	});
 
 	$.ajax({
-		url: '../SurveyGetSurveyInfo.do',
-		type: 'post', 
-		data: {
-			msg: 'spareSampleNum'
-		},
+		url: '../SurveyGetSurveyInfo.do?type=spareSampleNum',
+		type: 'get',
 		success: function(data) {
 			if (data.errno != 0) {
-				console.log(data.message);
+				console.log(data);
 				return;
 			}
 			
@@ -67,14 +61,11 @@ function showList() {
 	});
 
 	$.ajax({
-		url: '../SurveyGetSurveyInfo.do',
-		type: 'post', 
-		data: {
-			msg: 'endSurvey'
-		},
+		url: '../SurveyGetSurveyInfo.do?type=endSurvey',
+		type: 'get',
 		success: function(data) {
 			if (data.errno != 0) {
-				console.log(data.message);
+				console.log(data);
 				return;
 			}
 	

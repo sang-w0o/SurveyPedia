@@ -1,4 +1,4 @@
-package com.surveypedia.domain.withdrawed;
+package com.surveypedia.domain.surveys;
 
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
@@ -11,8 +11,8 @@ import java.time.LocalDateTime;
 @Getter
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public abstract class WithdrawedBaseTimeEntity {
+public abstract class SurveyBaseTimeEntity {
 
     @CreatedDate
-    private LocalDateTime withdraw_date;
+    private LocalDateTime writtendate;
 }
