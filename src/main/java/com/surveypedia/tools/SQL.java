@@ -61,4 +61,9 @@ public class SQL {
                 + "		OR DATE(NOW()) >= DATE(end_date))\r\n" + "ORDER BY\r\n"
                 + "	TIMESTAMPDIFF(DAY, NOW(), end_date) DESC\r\n" + "LIMIT\r\n" + "	10;";
     }
+
+    public class Members {
+
+        public static final String MEMBER_PASS_UPDATE = "UPDATE members SET pass=PASSWORD(?) WHERE email=?";
+    }
 }

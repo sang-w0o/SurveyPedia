@@ -21,10 +21,11 @@ $.fn.bindChangePass = function(){
 		
 		$.ajax({
 			url:'../MemberPassChange.do',
-			type:'post',
-			data:{
+			type:'put',
+			data:JSON.stringify({
 				changepass:$('.cpwrap #cpass1').val()
-			},
+			}),
+			contentType: 'application/json',
 			success:function(data){
 				alert(data.message);
 				$('.cpwrap #btnCancel').trigger('click');
