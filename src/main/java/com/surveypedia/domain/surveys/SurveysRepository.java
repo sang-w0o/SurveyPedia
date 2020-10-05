@@ -16,4 +16,7 @@ public interface SurveysRepository extends JpaRepository<Survey, Integer> {
 
     @Query(value = SQL.SurveyInfo.SURVEY_INFO_BY_SPARE_SAMPLE_NUM, nativeQuery = true)
     List<Object[]> getSurveyInfoBySpareSampleNum();
+
+    @Query(value = SQL.Survey.SURVEY_HISTORY_BY_CODE, nativeQuery = true)
+    List<Object[]> getSurveyInfoByS_code(int s_code);
 }

@@ -68,4 +68,9 @@ public class SQL {
         public static final String MEMBER_SIGNUP = "INSERT INTO members VALUES(?, PASSWORD(?), ?, DEFAULT, 'IRON')";
         public static final String MEMBER_POINT = "SELECT SUM(p.pointchange) FROM members m NATURAL JOIN pointhistory p WHERE m.email = ?";
     }
+
+    public class Survey {
+
+        public static final String SURVEY_HISTORY_BY_CODE = "SELECT s_code, s_title, email, c_code FROM survey WHERE s_code=?";
+    }
 }

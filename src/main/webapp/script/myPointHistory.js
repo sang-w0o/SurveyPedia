@@ -11,10 +11,8 @@ function showPointList(){
 	}
 	$.ajax({
 		url:"../PointHistoryGetList.do",
-		type:'post',
-		data:{
-			email:email
-		},
+		type:'GET',
+		contentType: 'application/json',
 		success:function(data){
 			$("<span>총 포인트 : "+ data.totalPoint +"</span>").appendTo($('#total'));
 			for(let i=0;i<data.list.length;i++){
