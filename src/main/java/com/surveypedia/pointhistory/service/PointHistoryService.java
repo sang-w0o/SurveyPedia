@@ -5,8 +5,6 @@ import com.surveypedia.domain.members.MembersRepository;
 import com.surveypedia.domain.pointhistory.PointHistory;
 import com.surveypedia.domain.pointhistory.PointHistoryRepository;
 import com.surveypedia.domain.surveys.SurveysRepository;
-import com.surveypedia.members.exception.MemberLoginCheckException;
-import com.surveypedia.pointhistory.dto.PointHistoryListDto;
 import com.surveypedia.surveys.dto.SurveyHistoryInfoDto;
 import com.surveypedia.tools.ObjectMaker;
 import lombok.RequiredArgsConstructor;
