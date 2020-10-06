@@ -187,7 +187,6 @@ function checkResponse(s_code, respondent) {
 				alert(data.message);
 			}
 			else {
-				console.log('해당 설문에 참여 가능합니다.');
 				location.href = 'responseSurvey.jsp?s_code=' + data.s_code + '&respondent=' + data.resp;
 			}
 		}

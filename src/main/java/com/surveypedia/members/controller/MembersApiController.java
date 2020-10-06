@@ -51,4 +51,9 @@ public class MembersApiController {
     public void getPoint(HttpServletRequest request, HttpServletResponse response) {
         WriteToClient.send(response, memberService.getPoint(request));
     }
+
+    @GetMapping("/MemberLoginCheck.do")
+    public void checkLogin(HttpServletRequest request, HttpServletResponse response) {
+        WriteToClient.send(response, memberService.checkLogin(request));
+    }
 }

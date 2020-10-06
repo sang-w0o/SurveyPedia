@@ -121,4 +121,18 @@ public class MemberService {
         jsonObject.put("point", point);
         return jsonObject;
     }
+
+    public org.json.simple.JSONObject checkLogin(HttpServletRequest request) {
+        org.json.simple.JSONObject jsonObject = ObjectMaker.getSimpleJSONObject();
+        try {
+            HttpSession session = request.getSession(false);
+            if(session == null || session.getAttribute("userInfo") == null)
+                throw new MemberLoginCheckException();
+            jsonObject.put("result", true);
+            } catch(MemberLoginCheckException exception) {
+            jsonObject = ObjectMaker.getJSONObjectWithException(exception);
+            jsonObject.put("message", exception.getMessage());
+        }
+        return jsonObject;
+    }
 }
