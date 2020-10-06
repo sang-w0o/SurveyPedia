@@ -214,11 +214,12 @@ function questionSubmit(s_code) {
 		url: '../QuestionInsert.do',
 		type: 'post',
 		async: false,
-		data: {
+		data: JSON.stringify({
 			qList: qArr,
 			qListType: qArrType,
 			s_code: s_code
-		},
+		}),
+		contentType: 'application/json',
 		success: function(data) {
 			choiceSubmit();
 		}

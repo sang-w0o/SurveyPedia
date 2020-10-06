@@ -91,8 +91,9 @@ public class SurveyService {
         if(last_s_id == null) last_s_id = 0;
         Survey survey = requestDto.toEntity(requestDto, last_s_id + 1);
         try {
-            surveysRepository.save(survey);
+            Integer s_code = surveysRepository.save(survey).getS_code();
             jsonObject.put("result", true);
+            jsonObject.put("s_code", s_code);
         } catch(Exception exception) {
             exception.printStackTrace();
             jsonObject = ObjectMaker.getJSONObjectWithException(new SurveyInsertException());
