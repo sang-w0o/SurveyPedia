@@ -74,5 +74,6 @@ public class SQL {
         public static final String SURVEY_HISTORY_BY_CODE = "SELECT s_code, s_title, email, c_code FROM survey WHERE s_code=?";
         public static final String SURVEY_WRITE_COUNT = "SELECT COUNT(*) FROM survey WHERE email=?";
         public static final String SURVEY_PARTICIPATE_COUNT = "SELECT COUNT(*) FROM pointhistory WHERE email=? AND ph_type='P'";
+        public static final String SURVEY_LAST_S_ID = "SELECT s_id FROM survey WHERE email=? AND s_reported != 'Y' ORDER BY s_code DESC LIMIT 1;";
     }
 }

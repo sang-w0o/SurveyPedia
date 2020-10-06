@@ -25,4 +25,7 @@ public interface SurveysRepository extends JpaRepository<Survey, Integer> {
 
     @Query(value = SQL.Survey.SURVEY_PARTICIPATE_COUNT, nativeQuery = true)
     Integer getParticpateCount(String email);
+
+    @Query(value = SQL.Survey.SURVEY_LAST_S_ID, nativeQuery = true)
+    Integer getLastS_id(String email);
 }

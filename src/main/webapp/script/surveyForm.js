@@ -176,12 +176,13 @@ $.fn.bindSurveySubmit = function(){
 			url:'../SurveyInsert.do',
 			type:'post',
 			async: false,
-			data:{
+			data:JSON.stringify({
 				s_title:$('#surveyName').val(),
 				email: $('#writerInfo').data('writer'),
 				c_code: $('#selectBox option:selected').data('c_code'),
 				s_public: $('input[name=open]:checked').val()
-			},
+			}),
+			contentType: 'application/json',
 			success:function(data){
 				if(data.result){
 					questionSubmit(data.s_code);

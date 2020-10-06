@@ -2,9 +2,12 @@ package com.surveypedia.surveys.service;
 
 import com.surveypedia.domain.members.Members;
 import com.surveypedia.domain.pointhistory.PointHistoryRepository;
+import com.surveypedia.domain.surveys.Survey;
 import com.surveypedia.domain.surveys.SurveysRepository;
 import com.surveypedia.surveys.dto.SurveyInfoDto;
+import com.surveypedia.surveys.dto.SurveyInsertRequestDto;
 import com.surveypedia.surveys.exception.SurveyInsertCheckException;
+import com.surveypedia.surveys.exception.SurveyInsertException;
 import com.surveypedia.tools.ObjectMaker;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -67,6 +70,21 @@ public class SurveyService {
             jsonObject.put("result", true);
         } catch(SurveyInsertCheckException exception) {
             jsonObject = ObjectMaker.getJSONObjectWithException(exception);
+        }
+        return jsonObject;
+    }
+
+    public org.json.simple.JSONObject insert(SurveyInsertRequestDto requestDto) {
+        org.json.simple.JSONObject jsonObject = ObjectMaker.getSimpleJSONObject();
+        Integer last_s_id = surveysRepository.getLastS_id(requestDto.getEmail());
+        if(last_s_id == null) last_s_id = 0;
+        Survey survey = requestDto.toEntity(requestDto, last_s_id + 1);
+        try {
+            surveysRepository.save(survey);
+            jsonObject.put("result", true);
+        } catch(Exception exception) {
+            exception.printStackTrace();
+            jsonObject = ObjectMaker.getJSONObjectWithException(new SurveyInsertException());
         }
         return jsonObject;
     }

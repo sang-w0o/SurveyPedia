@@ -1,5 +1,6 @@
 package com.surveypedia.domain.surveys;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -34,4 +35,15 @@ public class Survey {
 
     @Column(nullable = false)
     private String s_reported;
+
+    @Builder
+    public Survey(String s_title, String email, String c_code, String s_public, Integer s_id, Integer price, String s_reported) {
+        this.s_title = s_title;
+        this.email = email;
+        this.c_code = c_code;
+        this.s_public = s_public;
+        this.s_id = s_id;
+        this.price = price;
+        this.s_reported = s_reported;
+    }
 }
