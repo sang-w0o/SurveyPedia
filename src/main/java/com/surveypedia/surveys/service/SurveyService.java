@@ -4,8 +4,7 @@ import com.surveypedia.domain.members.Members;
 import com.surveypedia.domain.pointhistory.PointHistoryRepository;
 import com.surveypedia.domain.surveys.Survey;
 import com.surveypedia.domain.surveys.SurveysRepository;
-import com.surveypedia.surveys.dto.SurveyInfoDto;
-import com.surveypedia.surveys.dto.SurveyInsertRequestDto;
+import com.surveypedia.surveys.dto.*;
 import com.surveypedia.surveys.exception.SurveyInsertCheckException;
 import com.surveypedia.surveys.exception.SurveyInsertException;
 import com.surveypedia.tools.ObjectMaker;
@@ -29,21 +28,33 @@ public class SurveyService {
         try {
             switch (type) {
                 case "deadLine":
-                    list = surveysRepository.getSurveyInfoByDeadLine().stream().map(SurveyInfoDto::new).collect(Collectors.toList());
+                    list = surveysRepository.getSurveyInfoByDeadLine().stream().map(SurveyDeadLineInfoDto::new).collect(Collectors.toList());
                     break;
+
                 case "spareSampleNum":
-                    list = surveysRepository.getSurveyInfoBySpareSampleNum().stream().map(SurveyInfoDto::new).collect(Collectors.toList());
+                    list = surveysRepository.getSurveyInfoBySpareSampleNum().stream().map(SurveySpareSampleInfoDto::new).collect(Collectors.toList());
                     break;
+
                 case "endSurvey":
-                    list = surveysRepository.getSurveyInfoByEnd().stream().map(SurveyInfoDto::new).collect(Collectors.toList());
-                    break;
+                   list = surveysRepository.getSurveyInfoByEnd().stream().map(SurveyEndInfoDto::new).collect(Collectors.toList());
+                   break;
                 default:
                     break;
             }
             org.json.simple.JSONArray jsonArray = ObjectMaker.getSimpleJSONArray();
             for(SurveyInfoDto dto : list) {
                 org.json.simple.JSONObject jTemp = ObjectMaker.getSimpleJSONObject();
-                jTemp.putAll(dto.convertMap());
+                switch(type) {
+                    case "deadLine":
+                        jTemp.putAll(((SurveyDeadLineInfoDto)dto).convertMap());
+                        break;
+                    case "spareSampleNum":
+                        jTemp.putAll(((SurveySpareSampleInfoDto)dto).convertMap());
+                        break;
+                    case "endSurvey":
+                        jTemp.putAll(((SurveyEndInfoDto)dto).convertMap());
+                        break;
+                }
                 jsonArray.add(jTemp);
             }
             jsonObject.put("list", jsonArray);
