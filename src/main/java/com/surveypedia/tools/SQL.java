@@ -66,11 +66,13 @@ public class SQL {
 
         public static final String MEMBER_PASS_UPDATE = "UPDATE members SET pass=PASSWORD(?) WHERE email=?";
         public static final String MEMBER_SIGNUP = "INSERT INTO members VALUES(?, PASSWORD(?), ?, DEFAULT, 'IRON')";
-        public static final String MEMBER_POINT = "SELECT SUM(p.pointchange) FROM members m NATURAL JOIN pointhistory p WHERE m.email = ?";
+        public static final String MEMBER_POINT = "SELECT IFNULL(0, SUM(p.pointchange)) FROM members m NATURAL JOIN pointhistory p WHERE m.email = ?";
     }
 
     public class Survey {
 
         public static final String SURVEY_HISTORY_BY_CODE = "SELECT s_code, s_title, email, c_code FROM survey WHERE s_code=?";
+        public static final String SURVEY_WRITE_COUNT = "SELECT COUNT(*) FROM survey WHERE email=?";
+        public static final String SURVEY_PARTICIPATE_COUNT = "SELECT COUNT(*) FROM pointhistory WHERE email=? AND ph_type='P'";
     }
 }

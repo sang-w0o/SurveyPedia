@@ -3,7 +3,7 @@ $.fn.bindLogout = function() {
 		this.click(function(){
 			$.ajax({
 				url: '../Logout.do',
-				type: 'GET',
+				type: 'POST',
 				success: function(data) {
 				if (data.errno == 0) {
 					alert(data.message);

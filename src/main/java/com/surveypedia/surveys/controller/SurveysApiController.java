@@ -20,4 +20,9 @@ public class SurveysApiController {
         String type = request.getParameter("type");
         WriteToClient.send(response, surveyService.getSurveyInfo(request, type));
     }
+
+    @GetMapping("/SurveyInsertCheck.do")
+    public void checkWritable(HttpServletRequest request, HttpServletResponse response) {
+        WriteToClient.send(response, surveyService.isRegisterable(request));
+    }
 }

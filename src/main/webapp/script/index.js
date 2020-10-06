@@ -2,7 +2,7 @@
 $.checkIsRegisterable = function(){
 	$.ajax({
 		url:'../SurveyInsertCheck.do',
-		type:'post',
+		type:'GET',
 		success:function(data){
 			if(data.result){
 				location.href = 'surveyForm.jsp'

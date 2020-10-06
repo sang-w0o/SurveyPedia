@@ -19,4 +19,10 @@ public interface SurveysRepository extends JpaRepository<Survey, Integer> {
 
     @Query(value = SQL.Survey.SURVEY_HISTORY_BY_CODE, nativeQuery = true)
     List<Object[]> getSurveyInfoByS_code(int s_code);
+
+    @Query(value = SQL.Survey.SURVEY_WRITE_COUNT, nativeQuery = true)
+    Integer getWriteCount(String email);
+
+    @Query(value = SQL.Survey.SURVEY_PARTICIPATE_COUNT, nativeQuery = true)
+    Integer getParticpateCount(String email);
 }

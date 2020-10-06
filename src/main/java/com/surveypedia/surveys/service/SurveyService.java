@@ -1,8 +1,10 @@
 package com.surveypedia.surveys.service;
 
 import com.surveypedia.domain.members.Members;
+import com.surveypedia.domain.pointhistory.PointHistoryRepository;
 import com.surveypedia.domain.surveys.SurveysRepository;
 import com.surveypedia.surveys.dto.SurveyInfoDto;
+import com.surveypedia.surveys.exception.SurveyInsertCheckException;
 import com.surveypedia.tools.ObjectMaker;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,7 @@ import java.util.stream.Collectors;
 public class SurveyService {
 
     private final SurveysRepository surveysRepository;
+    private final PointHistoryRepository pointHistoryRepository;
 
     public org.json.simple.JSONObject getSurveyInfo(HttpServletRequest request, String type) {
         org.json.simple.JSONObject jsonObject = ObjectMaker.getSimpleJSONObject();
@@ -50,6 +53,21 @@ public class SurveyService {
         Members member = (Members)request.getSession(false).getAttribute("userInfo");
         if(member == null) jsonObject.put("respondent", null);
         else jsonObject.put("respondent", member.getEmail());
+        return jsonObject;
+    }
+
+    public org.json.simple.JSONObject isRegisterable(HttpServletRequest request) {
+        org.json.simple.JSONObject jsonObject = ObjectMaker.getSimpleJSONObject();
+        String email = ((Members)request.getSession(false).getAttribute("userInfo")).getEmail();
+        int writeCount = surveysRepository.getWriteCount(email);
+        int participateCount = pointHistoryRepository.getParticipateCount(email);
+        try {
+            boolean result = (((participateCount / 2) - writeCount) > -1);
+            if(!result) throw new SurveyInsertCheckException();
+            jsonObject.put("result", true);
+        } catch(SurveyInsertCheckException exception) {
+            jsonObject = ObjectMaker.getJSONObjectWithException(exception);
+        }
         return jsonObject;
     }
 }
