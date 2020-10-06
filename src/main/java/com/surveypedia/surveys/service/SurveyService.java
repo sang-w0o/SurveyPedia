@@ -94,6 +94,7 @@ public class SurveyService {
             Integer s_code = surveysRepository.save(survey).getS_code();
             jsonObject.put("result", true);
             jsonObject.put("s_code", s_code);
+            jsonObject.put("message", "설문지가 정상적으로 등록 되었습니다!");
         } catch(Exception exception) {
             exception.printStackTrace();
             jsonObject = ObjectMaker.getJSONObjectWithException(new SurveyInsertException());

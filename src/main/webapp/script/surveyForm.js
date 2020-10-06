@@ -253,9 +253,10 @@ function choiceSubmit() {
 			url: '../ChoiceInsert.do',
 			type: 'post',
 			async: false,
-			data: {
+			data: JSON.stringify({
 				choiceList: finalArr[i]
-			},
+			}),
+			contentType: 'application/json',
 			success: function(data) {
 				;
 			}
