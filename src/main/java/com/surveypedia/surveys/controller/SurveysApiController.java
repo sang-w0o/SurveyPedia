@@ -1,4 +1,4 @@
-package com.surveypedia.surveys;
+package com.surveypedia.surveys.controller;
 
 import com.surveypedia.surveys.service.SurveyService;
 import com.surveypedia.tools.WriteToClient;
