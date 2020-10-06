@@ -221,12 +221,12 @@ function questionSubmit(s_code) {
 		}),
 		contentType: 'application/json',
 		success: function(data) {
-			choiceSubmit();
+			choiceSubmit(data.s_code);
 		}
 	});
 }
 
-function choiceSubmit() {
+function choiceSubmit(s_code) {
 	var finalArr = [];
 	let qList = $('.questionList>ul>li:first-child>input:first-child');
 	qList.each(function(index, item) {
@@ -247,21 +247,20 @@ function choiceSubmit() {
 			finalArr.push(tmpArr);
 		}
 	});
-	
-	for (let i = 0; i < finalArr.length; i++) {
-		$.ajax({
-			url: '../ChoiceInsert.do',
-			type: 'post',
-			async: false,
-			data: JSON.stringify({
-				choiceList: finalArr[i]
-			}),
-			contentType: 'application/json',
-			success: function(data) {
-				;
-			}
-		});
-	}
+
+	$.ajax({
+		url: '../ChoiceInsert.do',
+		type: 'post',
+		async: false,
+		data: JSON.stringify({
+			choiceList: finalArr,
+			s_code: s_code
+		}),
+		contentType: 'application/json',
+		success: function(data) {
+			;
+		}
+	});
 }
 
 
