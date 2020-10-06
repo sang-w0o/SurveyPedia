@@ -4,7 +4,7 @@ public class SurveyPriceUpdateException extends SurveyException {
 
 	private static final long serialVersionUID = 1L;
 	private static final int ERRNO = 3;
-	private static final String MESSAGE = "���� ����Ʈ ���� �� ������ �߻��߽��ϴ�.";
+	private static final String MESSAGE = "설문 포인트 갱신 중 오류가 발생했습니다.";
 
 	public SurveyPriceUpdateException() {
 		super(ERRNO, MESSAGE);
