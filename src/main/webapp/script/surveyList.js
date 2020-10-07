@@ -95,12 +95,13 @@ function checkResponse(s_code, respondent) {
 	$.ajax({
 		url: '../SurveyCheckResponse.do',
 		type: 'post',
-		data: {
+		data: JSON.stringify({
 			s_code: s_code,
 			respondent: respondent
-		},
+		}),
+		contentType: 'application/json',
 		success: function(data) {
-			if (data.errno != 0) {
+			if (!data.result) {
 				alert(data.message);
 			}
 			else {

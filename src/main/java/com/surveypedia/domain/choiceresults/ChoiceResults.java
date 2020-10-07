@@ -3,14 +3,12 @@ package com.surveypedia.domain.choiceresults;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
+import javax.persistence.*;
 
 @NoArgsConstructor
 @Getter
 @Entity
+@Table(name = "choiceresults")
 @IdClass(ChoiceResultsCompositeKey.class)
 public class ChoiceResults {
 

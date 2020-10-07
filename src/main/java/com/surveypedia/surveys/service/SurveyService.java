@@ -1,14 +1,13 @@
 package com.surveypedia.surveys.service;
 
+import com.surveypedia.domain.choiceresults.ChoiceResultsRepository;
 import com.surveypedia.domain.members.Members;
 import com.surveypedia.domain.pointhistory.PointHistoryRepository;
+import com.surveypedia.domain.subjectiveresults.SubjectiveResultsRepository;
 import com.surveypedia.domain.surveys.Survey;
 import com.surveypedia.domain.surveys.SurveysRepository;
 import com.surveypedia.surveys.dto.*;
-import com.surveypedia.surveys.exception.SurveyGetEndSurveyException;
-import com.surveypedia.surveys.exception.SurveyGetSurveyException;
-import com.surveypedia.surveys.exception.SurveyInsertCheckException;
-import com.surveypedia.surveys.exception.SurveyInsertException;
+import com.surveypedia.surveys.exception.*;
 import com.surveypedia.tools.ObjectMaker;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,6 +24,8 @@ public class SurveyService {
     private static final int PAGESIZE = 10;
     private final SurveysRepository surveysRepository;
     private final PointHistoryRepository pointHistoryRepository;
+    private final ChoiceResultsRepository choiceResultsRepository;
+    private final SubjectiveResultsRepository subjectiveResultsRepository;
 
     public org.json.simple.JSONObject getSurveyInfo(HttpServletRequest request, String type) {
         org.json.simple.JSONObject jsonObject = ObjectMaker.getSimpleJSONObject();
@@ -183,6 +184,28 @@ public class SurveyService {
             jsonObject.put("pageCount", pageCount);
         } catch(Exception exception) {
             jsonObject = ObjectMaker.getJSONObjectWithException(new Exception("설문 목록을 가져오는데 실패했습니다."));
+        }
+        return jsonObject;
+    }
+
+    public org.json.simple.JSONObject checkResponse(SurveyResponseCheckDto checkDto) {
+        org.json.simple.JSONObject jsonObject = ObjectMaker.getSimpleJSONObject();
+        String respondent = checkDto.getRespondent();
+        int s_code = checkDto.getS_code();
+        try {
+            if(surveysRepository.findByEmailAndScode(respondent, s_code) != null) {
+                throw new SurveyRespondentIsWriterException();
+            }
+            if(subjectiveResultsRepository.findByScodeAndRespondent(s_code, respondent) != null) {
+                throw new SurveyCheckResponseException();
+            }
+
+            if(choiceResultsRepository.findByScodeAndRespondent(s_code, respondent) != null) {
+                throw new SurveyCheckResponseException();
+            }
+            jsonObject.put("result", true);
+        } catch(SurveyRespondentIsWriterException | SurveyCheckResponseException exception) {
+            jsonObject = ObjectMaker.getJSONObjectWithException(exception);
         }
         return jsonObject;
     }
