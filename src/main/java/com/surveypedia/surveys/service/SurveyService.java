@@ -5,6 +5,7 @@ import com.surveypedia.domain.pointhistory.PointHistoryRepository;
 import com.surveypedia.domain.surveys.Survey;
 import com.surveypedia.domain.surveys.SurveysRepository;
 import com.surveypedia.surveys.dto.*;
+import com.surveypedia.surveys.exception.SurveyGetEndSurveyException;
 import com.surveypedia.surveys.exception.SurveyInsertCheckException;
 import com.surveypedia.surveys.exception.SurveyInsertException;
 import com.surveypedia.tools.ObjectMaker;
@@ -12,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -98,6 +100,31 @@ public class SurveyService {
         } catch(Exception exception) {
             exception.printStackTrace();
             jsonObject = ObjectMaker.getJSONObjectWithException(new SurveyInsertException());
+        }
+        return jsonObject;
+    }
+
+    public org.json.simple.JSONObject getEndedSurveyLists(HttpServletRequest request) {
+        org.json.simple.JSONObject jsonObject = ObjectMaker.getSimpleJSONObject();
+        org.json.simple.JSONArray jsonArray = ObjectMaker.getSimpleJSONArray();
+        HttpSession session = request.getSession(false);
+        if(session == null || session.getAttribute("userInfo") == null) {
+            jsonObject.put("respondent", null);
+        } else {
+            jsonObject.put("respondent", ((Members)session.getAttribute("userInfo")).getEmail());
+        }
+        try {
+            List<SurveyEndedInfoDto> list = surveysRepository.getEndedSurveyLists().stream().map(SurveyEndedInfoDto::new).collect(Collectors.toList());
+            for(SurveyEndedInfoDto dto : list) {
+                org.json.simple.JSONObject jTemp = ObjectMaker.getSimpleJSONObject();
+                jTemp.putAll(dto.convertMap());
+                jsonArray.add(jTemp);
+            }
+            jsonObject.put("result", true);
+            jsonObject.put("endSurveyList", jsonArray);
+        } catch(Exception exception) {
+            exception.printStackTrace();
+            jsonObject = ObjectMaker.getJSONObjectWithException(new SurveyGetEndSurveyException());
         }
         return jsonObject;
     }

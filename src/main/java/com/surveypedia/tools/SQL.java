@@ -42,6 +42,19 @@ public class SQL {
                 + "		AND (g_sample_num - IFNULL(sample_num, 0) = 0\r\n"
                 + "		OR DATE(NOW()) >= DATE(end_date))\r\n" + "ORDER BY\r\n"
                 + "	TIMESTAMPDIFF(DAY, NOW(), end_date) DESC\r\n" + "LIMIT\r\n" + "	10;";
+
+        public static final String SURVEY_ENDED_LIST = "select sub1.s_code s_code, nick writer, email, s_title, sub4.c_desc,\n" +
+                "CAST(g_sample_num - IFNULL(sample_num, 0) AS SIGNED INTEGER) spare_sample_num,\n" +
+                "((IFNULL(sample_num, 0) * 2) + interest_count) price FROM \n" +
+                "(SELECT A.s_code, A.email, C.nick, A.s_title, A.writtendate, A.c_code, DATE_ADD(A.writtendate, INTERVAL D.g_deadLine DAY) end_date,\n" +
+                "\t\tD.g_sample_num, A.s_public,\tD.g_deadline, A.s_reported FROM survey A, members C, grades D \n" +
+                "\t\tWHERE A.email = C.email AND C.g_name = D.g_name) sub1 \n" +
+                "\t\tLEFT join (SELECT s_code, COUNT(s_code) interest_count FROM interests GROUP BY s_code) sub2 ON (sub1.s_code = sub2.s_code)\n" +
+                "\t\tLEFT join (SELECT s_code, COUNT(s_code) sample_num FROM pointhistory WHERE ph_type='P'\n" +
+                "\t\tGROUP BY s_code) sub3 ON (sub1.s_code = sub3.s_code)\n" +
+                "\t\tLEFT join (select c_code, c_desc FROM categories) sub4 ON (sub1.c_code = sub4.c_code)\n" +
+                "where sub1.s_public = 'Y' AND (g_sample_num - IFNULL(sample_num, 0) = 0\n" +
+                "\t\tOR DATE(NOW()) >= DATE(end_date)) AND sub1.s_reported = 'N';";
     }
 
     public class Members {

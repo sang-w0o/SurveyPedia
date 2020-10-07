@@ -33,4 +33,9 @@ public class SurveysApiController {
     public void insert(@RequestBody SurveyInsertRequestDto requestDto, HttpServletResponse response) {
         WriteToClient.send(response, surveyService.insert(requestDto));
     }
+
+    @GetMapping("/SurveyGetClosedList.do")
+    public void getEndedSurveyLists(HttpServletRequest request, HttpServletResponse response) {
+        WriteToClient.send(response, surveyService.getEndedSurveyLists(request));
+    }
 }

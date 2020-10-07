@@ -1,7 +1,7 @@
 $.getClosedSurveyList = function() {
 	$.ajax({
 		url:'../SurveyGetClosedList.do',
-		type:'post',
+		type:'get',
 		success:function(data){
 			if(!data.result){
 				alert(data.message);
