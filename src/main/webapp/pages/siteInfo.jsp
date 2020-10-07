@@ -26,14 +26,14 @@
 	<div class="wrap">
 		<div class="top">
 			<div id="logo" onClick="location.href='index.jsp'">
-				&nbsp;&nbsp;&nbsp;sur<span>V</span>ey&nbsp;&nbsp;&nbsp;<br>conne<span>C</span>tion
+				&nbsp;<span>S</span>urvey<span>P</span>edia
 			</div>
 			<jsp:include page="topMenu.jsp"></jsp:include>
 		</div>
 		<div class="mid">
 			<div id="content">
 				<div id="logo">
-					&nbsp;&nbsp;&nbsp;sur<span>V</span>ey&nbsp;&nbsp;&nbsp;<br>conne<span>C</span>tion
+					&nbsp;&nbsp;<span>S</span>urvey<span>P</span>edia
 				</div>
 				<div id="images">
 					<img src="../images/write.png" id="imgWrite"> 
@@ -42,7 +42,7 @@
 					<img src="../images/result.png" id="imgResult">
 				</div>
 				<div>
-					<div style="font-size: 15pt;">&nbsp;&nbsp;&nbsp;VC(surVeyconneCtion)은 회원들이 설문을 등록하고</div>
+					<div style="font-size: 15pt;">&nbsp;&nbsp;&nbsp;SP(SurveyPedia)는 회원들이 설문을 등록하고</div>
 					<div style="font-size: 15pt;">&nbsp;&nbsp;&nbsp;서로의 설문에참여함으로써 표본 수를 확보하는데 도움들 드립니다.</div>
 				</div>
 				<br />
@@ -69,7 +69,7 @@
 				<div>
 					<div style="font-weight: bold; font-size: 20pt;">&nbsp;&nbsp;&nbsp;(4)
 						결과 보기</div>
-					<div style="font-size: 17pt;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VC에서는
+					<div style="font-size: 17pt;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SP에서는
 						설문이 마감되면, 해당 설문의 결과를  보기 쉽게 정리해드립니다.</div>
 					<div style="font-size:15pt;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 						<span style="text-decoration:underline;">객관식 문항의 경우</span></div>

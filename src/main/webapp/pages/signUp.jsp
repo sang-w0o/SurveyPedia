@@ -14,7 +14,7 @@
 <form method="post" action="">
 	<div class="wrap">
 		<div class='signUp'>
-			<div id="logo">&nbsp;&nbsp;&nbsp;sur<span>V</span>ey&nbsp;&nbsp;&nbsp;<br>conne<span>C</span>tion</div>
+			<div id="logo">&nbsp;&nbsp;&nbsp;<span>S</span>urvey<span>P</span>edia</div>
 				<ul>
 					<li><input type="text" id="email" placeholder="    이메일"><button type="button" id="btnCheckEmail">중복확인</button></li>
 					<li><input type="text" id="nick" placeholder="    닉네임"><button type="button" id="btnCheckNick">중복확인</button></li>

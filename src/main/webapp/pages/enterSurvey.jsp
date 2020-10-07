@@ -39,7 +39,7 @@
 
 <div class="wrap">
 	<div class="top">
-		<div id="logo">&nbsp;&nbsp;&nbsp;sur<span>V</span>ey&nbsp;&nbsp;&nbsp;<br>conne<span>C</span>tion</div>
+		<div id="logo">&nbsp;&nbsp;&nbsp;<span>S</span>urvey<span>P</span>edia</div>
 		<jsp:include page="topMenu.jsp"></jsp:include>
 	</div>
 	<div class="mid">

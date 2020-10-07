@@ -24,13 +24,13 @@
 <body>
 <div class="wrap">
 	<div class="top">
-		<div id="logo">&nbsp;&nbsp;&nbsp;sur<span>V</span>ey&nbsp;&nbsp;&nbsp;<br>conne<span>C</span>tion</div>
+		<div id="logo">&nbsp;&nbsp;<span>S</span>urvey<span>P</span>edia</div>
 		<jsp:include page="topMenu.jsp"></jsp:include>
 	</div>
 	<div class="mid">
 			<div id="content">
 				<div id="logo">
-					&nbsp;&nbsp;&nbsp;sur<span>V</span>ey&nbsp;&nbsp;&nbsp;<br>conne<span>C</span>tion
+					&nbsp;&nbsp;<span>S</span>urvey<span>P</span>edia
 				</div>
 				<br/>
 				<br/>
@@ -38,9 +38,9 @@
 				<br/>
 				<br/>
 				<div>
-					&nbsp;&nbsp;&nbsp;&nbsp;VC는 회원들 끼리 서로의 설문에 답변하고, 설문을 올려 충분한 표본 수를 확보하는데 도움을 드리는 서비스 입니다.
+					&nbsp;&nbsp;&nbsp;&nbsp;SP는 회원들 끼리 서로의 설문에 답변하고, 설문을 올려 충분한 표본 수를 확보하는데 도움을 드리는 서비스 입니다.
 				</div>
-				<div>&nbsp;&nbsp;&nbsp;&nbsp;무료로 이용하실 수 있는 서비스인 만큼, VC에서는 부적절한 회원을 가리기 위해 
+				<div>&nbsp;&nbsp;&nbsp;&nbsp;무료로 이용하실 수 있는 서비스인 만큼, SP에서는 부적절한 회원을 가리기 위해
 				<span style="font-weight:bold; font-size:14pt">신고 시스템</span>을 도입했으며,</div>
 				<div>&nbsp;&nbsp;&nbsp;&nbsp;모든 회원에게는 <span style="font-weight:bold; font-size:14pt;">등급제도</span> 가 적용됩니다.
 				또한 등급 제도에 따라 각각 상이한 조건들이 있습니다.</div>
@@ -95,7 +95,7 @@
 				<br/>
 				<div style="font-weight:bold; font-size:19pt; text-align:center;"> 신고 시스템에 대한 설명</div>
 				<br/>
-				<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VC에서의 신고 시스템에는 단 1가지의 경우가 있습니다.</div>
+				<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SP에서의 신고 시스템에는 단 1가지의 경우가 있습니다.</div>
 				<br/>
 				<div style="font-size:14pt; font-weight:bold;">&nbsp;&nbsp;&nbsp;&nbsp;(*)응답자가 해당 설문 작성자를 신고하는 경우</div>			
 				<br/>
@@ -105,7 +105,7 @@
 				<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight:bold; font-size:12pt;">승인 시 -></span>해당 신고가 인정되어 해당 설문의 작성자는 신고 누적 회수가 1회 증가합니다.</div>
 				<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight:bold; font-size:12pt;">반려 시 -></span>해당 신고는 무효 처리 됩니다.</div>
 				<br/>
-				<div style="font-size:14pt; font-weight:bold;">&nbsp;&nbsp;&nbsp;&nbsp;**VC의 모든 회원은 1달 기준 신고 누적 횟수가 4회 이상이면 등급이 1단계 강등됩니다.**</div>
+				<div style="font-size:14pt; font-weight:bold;">&nbsp;&nbsp;&nbsp;&nbsp;**SP의 모든 회원은 1달 기준 신고 누적 횟수가 4회 이상이면 등급이 1단계 강등됩니다.**</div>
 				<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;신고 누적 횟수는 매달 1일에 초기화됩니다.</div>
 				
 			</div>
