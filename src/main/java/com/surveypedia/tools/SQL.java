@@ -44,7 +44,7 @@ public class SQL {
                 + "	TIMESTAMPDIFF(DAY, NOW(), end_date) DESC\r\n" + "LIMIT\r\n" + "	10;";
 
         public static final String SURVEY_ENDED_LIST = "select sub1.s_code s_code, nick writer, email, s_title, sub4.c_desc,\n" +
-                "CAST(g_sample_num - IFNULL(sample_num, 0) AS SIGNED INTEGER) spare_sample_num,\n" +
+                "IFNULL(sample_num, 0) spare_sample_num,\n" +
                 "((IFNULL(sample_num, 0) * 2) + interest_count) price FROM \n" +
                 "(SELECT A.s_code, A.email, C.nick, A.s_title, A.writtendate, A.c_code, DATE_ADD(A.writtendate, INTERVAL D.g_deadLine DAY) end_date,\n" +
                 "\t\tD.g_sample_num, A.s_public,\tD.g_deadline, A.s_reported FROM survey A, members C, grades D \n" +
