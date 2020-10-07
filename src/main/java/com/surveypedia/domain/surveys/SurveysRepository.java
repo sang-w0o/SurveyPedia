@@ -30,4 +30,10 @@ public interface SurveysRepository extends JpaRepository<Survey, Integer> {
     List<Object[]> getEndedSurveyLists();
 
     Survey findByEmailAndScode(String email, Integer s_code);
+
+    @Query(value = SQL.SurveyInfo.SURVEY_COUNT_BY_CATEGORY, nativeQuery = true)
+    Integer getTotalCountByCategory(String c_code);
+
+    @Query(value = SQL.SurveyInfo.SURVEY_LIST_BY_CATEGORY, nativeQuery = true)
+    List<Object[]> getSurveyListByCategoryAndPage(String c_code, Integer startPos, Integer pageSize);
 }

@@ -38,4 +38,9 @@ public class SurveysApiController {
     public void getEndedSurveyLists(HttpServletRequest request, HttpServletResponse response) {
         WriteToClient.send(response, surveyService.getEndedSurveyLists(request));
     }
+
+    @GetMapping("/SurveyGetByCategory.do")
+    public void getSurveyByCategory(HttpServletRequest request, HttpServletResponse response) {
+        WriteToClient.send(response, surveyService.getSuveyListByCategory(request));
+    }
 }

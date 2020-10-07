@@ -6,6 +6,7 @@ import com.surveypedia.domain.surveys.Survey;
 import com.surveypedia.domain.surveys.SurveysRepository;
 import com.surveypedia.surveys.dto.*;
 import com.surveypedia.surveys.exception.SurveyGetEndSurveyException;
+import com.surveypedia.surveys.exception.SurveyGetSurveyException;
 import com.surveypedia.surveys.exception.SurveyInsertCheckException;
 import com.surveypedia.surveys.exception.SurveyInsertException;
 import com.surveypedia.tools.ObjectMaker;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 @Service
 public class SurveyService {
 
+    private static final int PAGESIZE = 10;
     private final SurveysRepository surveysRepository;
     private final PointHistoryRepository pointHistoryRepository;
 
@@ -125,6 +127,61 @@ public class SurveyService {
         } catch(Exception exception) {
             exception.printStackTrace();
             jsonObject = ObjectMaker.getJSONObjectWithException(new SurveyGetEndSurveyException());
+        }
+        return jsonObject;
+    }
+
+    public org.json.simple.JSONObject getSuveyListByCategory(HttpServletRequest request) {
+        org.json.simple.JSONObject jsonObject = ObjectMaker.getSimpleJSONObject();
+        org.json.simple.JSONArray jsonArray = ObjectMaker.getSimpleJSONArray();
+        String strPage = request.getParameter("page");
+        String mode = request.getParameter("mode");
+        String c_code = request.getParameter("c_code");
+
+        int realPage = 1;
+        if(strPage != null) {
+            realPage = Integer.parseInt(strPage);
+        }
+
+        c_code = (c_code == null) ? "" : c_code;
+        mode = (mode == null) ? "" : mode;
+
+        int totalRecords = surveysRepository.getTotalCountByCategory(c_code);
+        int pageCount = (int)Math.ceil((double)totalRecords / PAGESIZE);
+
+        switch(mode) {
+            case "first":
+                realPage = 1;
+                break;
+            case "last":
+                realPage = pageCount;
+                break;
+            case "prev":
+                if( --realPage < 1) realPage = 1;
+                break;
+            case "next":
+                if( ++realPage > pageCount) realPage = pageCount;
+                break;
+            default:
+                if(realPage < 1) realPage = 1;
+                if(realPage > pageCount) realPage = pageCount;
+                break;
+        }
+        int startPos = ((realPage - 1) * PAGESIZE < 0) ? 0 : (realPage - 1) * PAGESIZE;
+        try {
+            List<SurveyCategoryInfoDto> list = surveysRepository.getSurveyListByCategoryAndPage(c_code, startPos, PAGESIZE).stream().map(SurveyCategoryInfoDto::new).collect(Collectors.toList());
+            for (SurveyCategoryInfoDto dto : list) {
+                org.json.simple.JSONObject jTemp = ObjectMaker.getSimpleJSONObject();
+                jTemp.putAll(dto.convertMap());
+                jsonArray.add(jTemp);
+            }
+            jsonObject.put("surveys", jsonArray);
+            jsonObject.put("result", true);
+            jsonObject.put("page", realPage);
+            jsonObject.put("c_code", c_code);
+            jsonObject.put("pageCount", pageCount);
+        } catch(Exception exception) {
+            jsonObject = ObjectMaker.getJSONObjectWithException(new Exception("설문 목록을 가져오는데 실패했습니다."));
         }
         return jsonObject;
     }

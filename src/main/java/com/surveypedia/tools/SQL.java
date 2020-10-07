@@ -55,6 +55,25 @@ public class SQL {
                 "\t\tLEFT join (select c_code, c_desc FROM categories) sub4 ON (sub1.c_code = sub4.c_code)\n" +
                 "where sub1.s_public = 'Y' AND (g_sample_num - IFNULL(sample_num, 0) = 0\n" +
                 "\t\tOR DATE(NOW()) >= DATE(end_date)) AND sub1.s_reported = 'N';";
+
+        public static final String SURVEY_COUNT_BY_CATEGORY = "SELECT COUNT(*) FROM \n" +
+                "(SELECT A.s_code, A.writtendate, A.s_reported, C.g_deadline, C.g_sample_num, DATE_ADD(A.writtendate, INTERVAL C.g_deadLine DAY) end_date \n" +
+                "FROM survey A, members B, grades C WHERE A.email = B.email AND A.c_code=? AND B.g_name = C.g_name) sub1 \n" +
+                "LEFT JOIN (SELECT s_code, COUNT(s_code) interest_count FROM interests GROUP BY s_code) sub2 ON(sub1.s_code = sub2.s_code) \n" +
+                "LEFT join (SELECT s_code, COUNT(s_code) sample_num FROM pointhistory WHERE ph_type='P' \n" +
+                "GROUP BY s_code) sub3 ON (sub1.s_code = sub3.s_code) where \n" +
+                "sub1.s_reported != 'Y' AND g_sample_num - IFNULL(sample_num, 0) != 0 \n" +
+                "AND DATE(DATE_ADD(sub1.writtendate, INTERVAL sub1.g_deadLine DAY)) > DATE(NOW());";
+
+        public static final String SURVEY_LIST_BY_CATEGORY = "SELECT sub1.s_code s_code, nick writer, s_title, CAST(writtendate AS DATE) written_date, IFNULL(interest_count, 0)\n" +
+                "FROM (SELECT A.s_code, B.nick, A.s_title, A.writtendate, A.s_reported, A.s_id, C.g_deadline, C.g_sample_num,\n" +
+                "DATE_ADD(A.writtendate, INTERVAL C.g_deadLine DAY) end_date\t\n" +
+                "FROM survey A, members B, grades C WHERE A.email = B.email AND A.c_code=? AND B.g_name = C.g_name) sub1\n" +
+                "LEFT JOIN (SELECT s_code, COUNT(s_code) interest_count FROM interests GROUP BY s_code) sub2 ON(sub1.s_code = sub2.s_code) \n" +
+                "LEFT join (SELECT s_code, COUNT(s_code) sample_num from pointhistory WHERE ph_type='P'\n" +
+                "GROUP by s_code) sub3 ON (sub1.s_code = sub3.s_code) where sub1.s_reported != 'Y'\n" +
+                "AND g_sample_num - IFNULL(sample_num, 0) != 0 AND DATE(DATE_ADD(sub1.writtendate, INTERVAL sub1.g_deadLine DAY)) > DATE(NOW()) \n" +
+                "ORDER by TIMESTAMPDIFF(DAY, NOW(), end_date) asc limit ?, ?;";
     }
 
     public class Members {
