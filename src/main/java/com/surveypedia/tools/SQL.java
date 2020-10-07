@@ -61,7 +61,7 @@ public class SQL {
 
         public static final String MEMBER_PASS_UPDATE = "UPDATE members SET pass=PASSWORD(?) WHERE email=?";
         public static final String MEMBER_SIGNUP = "INSERT INTO members VALUES(?, PASSWORD(?), ?, DEFAULT, 'IRON')";
-        public static final String MEMBER_POINT = "SELECT IFNULL(0, SUM(p.pointchange)) FROM members m NATURAL JOIN pointhistory p WHERE m.email = ?";
+        public static final String MEMBER_POINT = "SELECT IFNULL(SUM(p.pointchange), 0) FROM members m NATURAL JOIN pointhistory p WHERE m.email = ?";
     }
 
     public class Survey {
