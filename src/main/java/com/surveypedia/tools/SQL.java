@@ -71,4 +71,9 @@ public class SQL {
         public static final String SURVEY_PARTICIPATE_COUNT = "SELECT COUNT(*) FROM pointhistory WHERE email=? AND ph_type='P'";
         public static final String SURVEY_LAST_S_ID = "SELECT s_id FROM survey WHERE email=? AND s_reported != 'Y' ORDER BY s_code DESC LIMIT 1;";
     }
+
+    public class PointHistory {
+
+        public static final String GET_POINT_BY_EMAIL = "SELECT SUM(B.pointchange) AS point FROM members AS A NATURAL JOIN pointhistory AS B WHERE A.email = ?";
+    }
 }

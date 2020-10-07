@@ -13,7 +13,8 @@ public class Survey {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer s_code;
+    @Column(name = "s_code")
+    private Integer scode;
 
     @Column(nullable = false)
     private String email;

@@ -93,7 +93,7 @@ public class SurveyService {
         if(last_s_id == null) last_s_id = 0;
         Survey survey = requestDto.toEntity(requestDto, last_s_id + 1);
         try {
-            Integer s_code = surveysRepository.save(survey).getS_code();
+            Integer s_code = surveysRepository.save(survey).getScode();
             jsonObject.put("result", true);
             jsonObject.put("s_code", s_code);
             jsonObject.put("message", "설문지가 정상적으로 등록 되었습니다!");

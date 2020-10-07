@@ -28,4 +28,6 @@ public interface SurveysRepository extends JpaRepository<Survey, Integer> {
 
     @Query(value = SQL.SurveyInfo.SURVEY_ENDED_LIST, nativeQuery = true)
     List<Object[]> getEndedSurveyLists();
+
+    Survey findByEmailAndScode(String email, Integer s_code);
 }

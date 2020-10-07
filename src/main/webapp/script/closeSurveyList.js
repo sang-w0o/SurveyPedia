@@ -38,14 +38,15 @@ $.fn.bindPurchaseClick = function(){
 	this.click(function(){
 		
 		$.ajax({
-			url:'../BuyAndSell.do',
+			url:'../PointHistoryBuyAndSell.do',
 			type:'post',
-			data:{
+			data:JSON.stringify({
 				s_code : $(this).closest('ul').data('s_code'),
 				buyer : $(this).closest('ul').data('respondent'),
 				seller : $(this).data('writer_email'),
 				price : $(this).data('price')
-			},
+			}),
+			contentType: 'application/json',
 			success : function(data){
 				if(data.result){
 					alert("구매에 성공했습니다.\n'내 설문 보기'의 '구매한 설문 보기'에서 확인하시기 바랍니다.");
