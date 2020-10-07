@@ -1,6 +1,7 @@
 package com.surveypedia.surveys.controller;
 
 import com.surveypedia.surveys.dto.SurveyInsertRequestDto;
+import com.surveypedia.surveys.dto.SurveyResponseCheckDto;
 import com.surveypedia.surveys.service.SurveyService;
 import com.surveypedia.tools.WriteToClient;
 import lombok.RequiredArgsConstructor;
@@ -42,5 +43,10 @@ public class SurveysApiController {
     @GetMapping("/SurveyGetByCategory.do")
     public void getSurveyByCategory(HttpServletRequest request, HttpServletResponse response) {
         WriteToClient.send(response, surveyService.getSuveyListByCategory(request));
+    }
+
+    @PostMapping("/SurveyCheckResponse.do")
+    public void checkResponse(@RequestBody SurveyResponseCheckDto checkDto, HttpServletResponse response) {
+
     }
 }
