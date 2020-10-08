@@ -159,19 +159,16 @@ function showResponseQuestion(s_code) {
 
 function showResponseChoice(s_code, q_number) {
 	$.ajax({
-		url: '../GetChoice.do',
-		type: 'post',
-		data: {
-			s_code: s_code,
-			q_number: q_number
-		},
+		url: '../GetChoice.do?s_code=' + s_code + '&q_number=' + q_number,
+		type: 'GET',
 		success: function(data) {
-			if (data.errno != 0) {
+			if (!data.result) {
+				alert(data.message);
 				return;
 			}
 			let ul = $('.questionList > ul:nth-child(' + q_number + ')');
-			for (let i = 0; i < data.list.length; i++) {
-				let q = data.list[i];
+			for (let i = 0; i < data.choiceList.length; i++) {
+				let q = data.choiceList[i];
 				let li = $('<li>');
 				let label = $('<label><input type="radio" data-num="'+q.choice_num+'" name="choice'+q_number+'"> ' + q.choice_content + '</label>');
 				li.append(label);
