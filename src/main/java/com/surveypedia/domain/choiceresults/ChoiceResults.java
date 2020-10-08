@@ -1,5 +1,6 @@
 package com.surveypedia.domain.choiceresults;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -24,4 +25,12 @@ public class ChoiceResults {
 
     @Column(nullable = false)
     private String respondent;
+
+    @Builder
+    public ChoiceResults(Integer scode, Integer qnumber, Integer choicenum, String respondent) {
+        this.scode = scode;
+        this.qnumber = qnumber;
+        this.choicenum = choicenum;
+        this.respondent = respondent;
+    }
 }

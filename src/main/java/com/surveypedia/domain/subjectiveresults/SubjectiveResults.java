@@ -1,5 +1,6 @@
 package com.surveypedia.domain.subjectiveresults;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -24,4 +25,12 @@ public class SubjectiveResults {
 
     @Column(nullable = false)
     private String answer;
+
+    @Builder
+    public SubjectiveResults(Integer scode, Integer qnumber, String respondent, String answer) {
+        this.scode = scode;
+        this.qnumber = qnumber;
+        this.respondent = respondent;
+        this.answer = answer;
+    }
 }

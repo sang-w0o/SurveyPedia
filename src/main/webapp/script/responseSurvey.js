@@ -190,12 +190,13 @@ $.sendChoiceResult = function(){
 	$.ajax({
 		url:'../ChoiceResultInsert.do',
 		type:'post',
-		data:{
+		data:JSON.stringify({
 			choices:choices,
 			s_code:$('.questionList').data('s_code'),
 			respondent : $('.questionList').data('respondent'),
 			q_numbers:q_numbers
-		},
+		}),
+		contentType: 'application/json',
 		success:function(data){
 			if(data.result){
 			}
@@ -220,12 +221,13 @@ $.sendSubjectiveResult = function(){
 	$.ajax({
 		url:'../SubjectiveResultInsert.do',
 		type:'post',
-		data:{
+		data:JSON.stringify({
 			answers : answers,
 			s_code:$('.questionList').data("s_code"),
 			respondent: $('.questionList').data("respondent"),
 			q_numbers : q_numbers
-		},
+		}),
+		contentType: 'application/json',
 		success:function(data){
 			if(data.result){
 				
