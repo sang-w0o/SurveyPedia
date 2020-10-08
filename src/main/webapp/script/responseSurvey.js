@@ -56,10 +56,11 @@ $.addInterest = function(){
 	$.ajax({
 		url:'../InterestInsert.do',
 		type:'post',
-		data:{
+		data:JSON.stringify({
 			email: $('.questionList').data('respondent'),
 			s_code : $('.questionList').data('s_code')
-		},
+		}),
+		contentType: 'application/json',
 		success:function(data){
 			alert(data.message);
 		}
