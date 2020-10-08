@@ -18,11 +18,12 @@ $.submitReport = function(){
 	$.ajax({
 		url:'../ReportInsert.do',
 		type:'post',
-		data:{
+		data:JSON.stringify({
 			cause: $('#reportText').val(),
 			reporter : $('.questionList').data('respondent'),
 			s_code : $('.questionList').data('s_code')
-		},
+		}),
+		contentType: 'application/json',
 		success:function(data){
 			alert(data.message);
 			if(data.result){

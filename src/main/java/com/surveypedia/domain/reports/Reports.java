@@ -12,7 +12,7 @@ import javax.persistence.*;
 public class Reports {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "r_id")
     private Integer rid;
 

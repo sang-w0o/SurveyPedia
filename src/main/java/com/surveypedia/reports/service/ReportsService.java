@@ -1,8 +1,11 @@
 package com.surveypedia.reports.service;
 
+import com.surveypedia.domain.reports.ReportState;
 import com.surveypedia.domain.reports.Reports;
 import com.surveypedia.domain.reports.ReportsRepository;
+import com.surveypedia.reports.dto.ReportInsertRequestDto;
 import com.surveypedia.reports.exception.ReportCheckException;
+import com.surveypedia.reports.exception.ReportInsertException;
 import com.surveypedia.tools.ObjectMaker;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,6 +28,24 @@ public class ReportsService {
             jsonObject.put("result", true);
         } catch(ReportCheckException exception) {
             jsonObject = ObjectMaker.getJSONObjectWithException(exception);
+        }
+        return jsonObject;
+    }
+
+    public org.json.simple.JSONObject insert(ReportInsertRequestDto requestDto) {
+        org.json.simple.JSONObject jsonObject = ObjectMaker.getSimpleJSONObject();
+        try {
+            Reports report = Reports.builder().scode(requestDto.getS_code())
+                    .cause(requestDto.getCause())
+                    .reporter(requestDto.getReporter())
+                    .rtype("W")
+                    .reportstate(ReportState.N).build();
+            reportsRepository.save(report);
+            jsonObject.put("result", true);
+            jsonObject.put("message", "신고가 정상적으로 접수되었습니다.");
+        } catch(Exception exception) {
+            exception.printStackTrace();
+            jsonObject = ObjectMaker.getJSONObjectWithException(new ReportInsertException());
         }
         return jsonObject;
     }
