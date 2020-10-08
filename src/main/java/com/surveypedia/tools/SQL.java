@@ -93,9 +93,14 @@ public class SQL {
 
     public class PointHistory {
         public static final String GET_POINT_BY_EMAIL = "SELECT SUM(B.pointchange) AS point FROM members AS A NATURAL JOIN pointhistory AS B WHERE A.email = ?";
+        public static final String GET_SAMPLE_COUNT_BY_S_CODE = "SELECT count(*) FROM pointhistory WHERE s_code =? AND pointchange = 5 AND ph_type='P'";
     }
 
     public class Category {
         public static final String GET_DES_BY_CODE = "SELECT c_desc FROM categories WHERE c_code = ?";
+    }
+
+    public class Interest {
+        public static final String GET_COUNT_BY_S_CODE = "SELECT COUNT(*) FROM interests WHERE s_code=?";
     }
 }

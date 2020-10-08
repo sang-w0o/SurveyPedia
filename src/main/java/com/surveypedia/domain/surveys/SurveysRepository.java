@@ -38,4 +38,6 @@ public interface SurveysRepository extends JpaRepository<Survey, Integer> {
     List<Object[]> getSurveyListByCategoryAndPage(String c_code, Integer startPos, Integer pageSize);
 
     Survey findByScode(Integer s_code);
+
+
 }

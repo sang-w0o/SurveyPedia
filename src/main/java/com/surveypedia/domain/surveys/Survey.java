@@ -47,4 +47,8 @@ public class Survey {
         this.price = price;
         this.sreported = sreported;
     }
+
+    public void updatePrice(Integer price) {
+        this.price = price;
+    }
 }

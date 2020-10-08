@@ -304,12 +304,10 @@ $.submitToPointHistory = function(){
 }
 
 $.updatePrice = function(){
+	let s_code = $('.questionList').data('s_code');
 	$.ajax({
-		url:'../SurveyPriceUpdate.do',
-		type:'post',
-		data:{
-			s_code:$('.questionList').data('s_code')
-		},
+		url:'../SurveyPriceUpdate.do?s_code=' + s_code,
+		type:'PUT',
 		success:function(data){
 			if(data.result){
 				location.href = 'index.jsp';

@@ -5,10 +5,7 @@ import com.surveypedia.surveys.dto.SurveyResponseCheckDto;
 import com.surveypedia.surveys.service.SurveyService;
 import com.surveypedia.tools.WriteToClient;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -53,5 +50,10 @@ public class SurveysApiController {
     @GetMapping("/GetSurvey.do")
     public void getSurvey(HttpServletRequest request, HttpServletResponse response) {
         WriteToClient.send(response, surveyService.getSurvey(request));
+    }
+
+    @PutMapping("/SurveyPriceUpdate.do")
+    public void updatePrice(HttpServletRequest request, HttpServletResponse response) {
+        WriteToClient.send(response, surveyService.updatePrice(request));
     }
 }

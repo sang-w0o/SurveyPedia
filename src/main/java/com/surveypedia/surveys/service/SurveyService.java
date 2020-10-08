@@ -2,6 +2,7 @@ package com.surveypedia.surveys.service;
 
 import com.surveypedia.domain.categories.CategoriesRepository;
 import com.surveypedia.domain.choiceresults.ChoiceResultsRepository;
+import com.surveypedia.domain.interests.InterestsRepository;
 import com.surveypedia.domain.members.Members;
 import com.surveypedia.domain.pointhistory.PointHistoryRepository;
 import com.surveypedia.domain.subjectiveresults.SubjectiveResultsRepository;
@@ -12,6 +13,7 @@ import com.surveypedia.surveys.exception.*;
 import com.surveypedia.tools.ObjectMaker;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -28,6 +30,7 @@ public class SurveyService {
     private final ChoiceResultsRepository choiceResultsRepository;
     private final SubjectiveResultsRepository subjectiveResultsRepository;
     private final CategoriesRepository categoriesRepository;
+    private final InterestsRepository interestsRepository;
 
     public org.json.simple.JSONObject getSurveyInfo(HttpServletRequest request, String type) {
         org.json.simple.JSONObject jsonObject = ObjectMaker.getSimpleJSONObject();
@@ -231,6 +234,25 @@ public class SurveyService {
             jsonObject.put("s_code", s_code);
         } catch(Exception exception) {
             jsonObject = ObjectMaker.getJSONObjectWithException(new SurveyGetSurveyException());
+        }
+        return jsonObject;
+    }
+
+    @Transactional
+    @SuppressWarnings("unchecked")
+    public org.json.simple.JSONObject updatePrice(HttpServletRequest request) {
+        org.json.simple.JSONObject jsonObject = ObjectMaker.getSimpleJSONObject();
+        int s_code = Integer.parseInt(request.getParameter("s_code"));
+        try {
+            int totalSamples = pointHistoryRepository.getSampleCounts(s_code);
+            int totalInterests = interestsRepository.getInterestCounts(s_code);
+            int finalPrice = totalSamples * 2 + totalInterests;
+            Survey survey = surveysRepository.findByScode(s_code);
+            survey.updatePrice(finalPrice);
+            jsonObject.put("result", true);
+        } catch(Exception exception) {
+            exception.printStackTrace();
+            jsonObject = ObjectMaker.getJSONObjectWithException(new SurveyPriceUpdateException());
         }
         return jsonObject;
     }
