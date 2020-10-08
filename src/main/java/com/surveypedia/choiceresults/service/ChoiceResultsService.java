@@ -25,7 +25,7 @@ public class ChoiceResultsService {
             int s_code = requestObject.getInt("s_code");
             for (int i = 0; i < arrayOfQNumbers.length(); i++) {
                 int currentQNumber = arrayOfQNumbers.getInt(i);
-                int currentChoice = arrayOfQNumbers.getInt(i);
+                int currentChoice = arrayOfChoices.getInt(i);
                 ChoiceResults result = ChoiceResults.builder()
                         .scode(s_code)
                         .qnumber(currentQNumber)

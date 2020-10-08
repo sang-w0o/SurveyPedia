@@ -207,11 +207,11 @@ public class SurveyService {
             if(surveysRepository.findByEmailAndScode(respondent, s_code) != null) {
                 throw new SurveyRespondentIsWriterException();
             }
-            if(subjectiveResultsRepository.findByScodeAndRespondent(s_code, respondent) != null) {
+            if(subjectiveResultsRepository.findByScodeAndRespondent(s_code, respondent).size() != 0) {
                 throw new SurveyCheckResponseException();
             }
 
-            if(choiceResultsRepository.findByScodeAndRespondent(s_code, respondent) != null) {
+            if(choiceResultsRepository.findByScodeAndRespondent(s_code, respondent).size() != 0) {
                 throw new SurveyCheckResponseException();
             }
             jsonObject.put("result", true);
@@ -251,7 +251,6 @@ public class SurveyService {
             survey.updatePrice(finalPrice);
             jsonObject.put("result", true);
         } catch(Exception exception) {
-            exception.printStackTrace();
             jsonObject = ObjectMaker.getJSONObjectWithException(new SurveyPriceUpdateException());
         }
         return jsonObject;

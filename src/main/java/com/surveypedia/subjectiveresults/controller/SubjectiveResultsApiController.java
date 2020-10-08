@@ -1,6 +1,7 @@
 package com.surveypedia.subjectiveresults.controller;
 
 import com.surveypedia.subjectiveresults.service.SubjectiveResultsService;
+import com.surveypedia.tools.WriteToClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,6 +17,6 @@ public class SubjectiveResultsApiController {
 
     @PostMapping("/SubjectiveResultInsert.do")
     public void insert(@RequestBody String requestObject, HttpServletResponse response) {
-
+        WriteToClient.send(response, subjectiveResultsService.insert(requestObject));
     }
 }
