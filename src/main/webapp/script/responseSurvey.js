@@ -68,13 +68,11 @@ $.addInterest = function(){
 
 $.fn.bindAddInterest = function(){
 	$(this).one('click', function(){
+		let email = $('.questionList').data('respondent');
+		let s_code = $('.questionList').data('s_code');
 		$.ajax({
-			url:'../InterestCheck.do',
-			type:'post',
-			data:{
-				email: $('.questionList').data('respondent'),
-				s_code : $('.questionList').data('s_code')
-			},
+			url:'../InterestCheck.do?email=' + email + '&s_code=' + s_code,
+			type:'GET',
 			success:function(data){
 				if(data.result){
 					$.addInterest();
