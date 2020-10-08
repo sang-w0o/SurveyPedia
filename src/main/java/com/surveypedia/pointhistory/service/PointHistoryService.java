@@ -7,7 +7,9 @@ import com.surveypedia.domain.pointhistory.PointHistoryRepository;
 import com.surveypedia.domain.pointhistory.PointHistoryType;
 import com.surveypedia.domain.surveys.SurveysRepository;
 import com.surveypedia.pointhistory.dto.PointHistoryPurchaseRequestDto;
+import com.surveypedia.pointhistory.dto.PointHistoryRespondentInsertRequestDto;
 import com.surveypedia.pointhistory.exception.PointHistoryAlreadyPurchasedException;
+import com.surveypedia.pointhistory.exception.PointHistoryInsertException;
 import com.surveypedia.pointhistory.exception.PointHistoryNotEnoughPointException;
 import com.surveypedia.pointhistory.exception.PointHistoryWriterIsBuyerException;
 import com.surveypedia.surveys.dto.SurveyHistoryInfoDto;
@@ -82,6 +84,18 @@ public class PointHistoryService {
             }
         } catch(PointHistoryWriterIsBuyerException | PointHistoryAlreadyPurchasedException | PointHistoryNotEnoughPointException exception) {
             jsonObject = ObjectMaker.getJSONObjectWithException(exception);
+        }
+        return jsonObject;
+    }
+
+    public org.json.simple.JSONObject insertRespondent(PointHistoryRespondentInsertRequestDto requestDto) {
+        org.json.simple.JSONObject jsonObject = ObjectMaker.getSimpleJSONObject();
+        try {
+            PointHistory history = new PointHistory(requestDto.getRespondent(), requestDto.getS_code(), 5, PointHistoryType.P);
+            pointHistoryRepository.save(history);
+            jsonObject.put("result", true);
+        } catch(Exception exception) {
+            jsonObject = ObjectMaker.getJSONObjectWithException(new PointHistoryInsertException());
         }
         return jsonObject;
     }

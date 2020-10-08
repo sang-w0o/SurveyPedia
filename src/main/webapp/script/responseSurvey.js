@@ -286,10 +286,11 @@ $.submitToPointHistory = function(){
 	$.ajax({
 		url:'../PointHistoryInsertRespondent.do',
 		type:'post',
-		data:{
+		data:JSON.stringify({
 			s_code : $('.questionList').data('s_code'),
 			respondent : $('.questionList').data('respondent')
-		},
+		}),
+		contentType: 'application/json',
 		success:function(data){
 			if(data.result){
 				alert('응답 결과가 제출되었습니다.');

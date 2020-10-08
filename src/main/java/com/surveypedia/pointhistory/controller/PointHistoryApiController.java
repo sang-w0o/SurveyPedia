@@ -1,6 +1,7 @@
 package com.surveypedia.pointhistory.controller;
 
 import com.surveypedia.pointhistory.dto.PointHistoryPurchaseRequestDto;
+import com.surveypedia.pointhistory.dto.PointHistoryRespondentInsertRequestDto;
 import com.surveypedia.pointhistory.service.PointHistoryService;
 import com.surveypedia.tools.WriteToClient;
 import lombok.RequiredArgsConstructor;
@@ -26,5 +27,10 @@ public class PointHistoryApiController {
     @PostMapping("/PointHistoryBuyAndSell.do")
     public void buyAndSell(@RequestBody PointHistoryPurchaseRequestDto requestDto, HttpServletResponse response) {
         WriteToClient.send(response, pointHistoryService.buyAndSell(requestDto));
+    }
+
+    @PostMapping("/PointHistoryInsertRespondent.do")
+    public void insertRespondent(@RequestBody PointHistoryRespondentInsertRequestDto requestDto, HttpServletResponse response) {
+        WriteToClient.send(response, pointHistoryService.insertRespondent(requestDto));
     }
 }
