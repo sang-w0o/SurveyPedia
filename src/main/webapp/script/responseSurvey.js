@@ -34,13 +34,11 @@ $.submitReport = function(){
 
 $.fn.bindSubmitReport = function(){
 	$(this).one('click', function(){
+		let reporter = $('.questionList').data('respondent');
+		let s_code = $('.questionList').data('s_code');
 		$.ajax({
-			url:'../ReportCheck.do',
-			type:'post',
-			data:{
-				reporter : $('.questionList').data('respondent'),
-				s_code : $('.questionList').data('s_code')
-			},
+			url:'../ReportCheck.do?s_code=' + s_code + '&reporter=' + reporter,
+			type:'GET',
 			success:function(data){
 				if(data.result){
 					$.submitReport();
