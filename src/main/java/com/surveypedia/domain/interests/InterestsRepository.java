@@ -4,4 +4,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface InterestsRepository extends JpaRepository<Interests, String> {
 
+    Interests findByEmailAndScode(String email, Integer s_code);
 }
