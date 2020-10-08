@@ -35,6 +35,8 @@ dependencies {
     compile('org.jetbrains:annotations:16.0.2')
     compile('org.apache.tomcat.embed:tomcat-embed-jasper')
     compile('javax.servlet:jstl')
+    compile('javax.activation:activation:1.1')
+    compile('javax.mail:mail:1.4.7')
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 

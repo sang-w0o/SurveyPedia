@@ -5,12 +5,10 @@ $.fn.bindSendEmail = function(){
 			return;
 		}
 		alert('임시 비밀번호 전송 알림창이 뜰 때 까지 잠시만 기다려 주세요...');
+		let email = $('.sendwrap #tempPassEmail').val();
 		$.ajax({
-			url:'../SendTempPass.do',
-			type:'post',
-			data:{
-				email:$('.sendwrap #tempPassEmail').val()
-			},
+			url:'../MemberSendTempPass.do?email=' + email,
+			type:'PUT',
 			success:function(data){
 				alert(data.message);
 				$('.mid>#side>#changePass').css("display","none");	

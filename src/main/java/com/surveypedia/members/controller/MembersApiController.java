@@ -56,4 +56,9 @@ public class MembersApiController {
     public void checkLogin(HttpServletRequest request, HttpServletResponse response) {
         WriteToClient.send(response, memberService.checkLogin(request));
     }
+
+    @PutMapping("/MemberSendTempPass.do")
+    public void sendTempPassToEmail(HttpServletRequest request, HttpServletResponse response) {
+        WriteToClient.send(response, memberService.sendTempPassToEmail(request));
+    }
 }
