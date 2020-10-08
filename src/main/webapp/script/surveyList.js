@@ -51,7 +51,7 @@ function showList() {
 					'<li>' + sInfo.end_date + '</li>' +
 					'<li>' + sInfo.spare_sample_num + '</li>' +							
 					'</ul>');
-				
+				console.log("LINE 54 : s_code = " + sInfo.s_code);
 				$(obj).data('s_code', sInfo.s_code);
 				$(obj).data('respondent', resp);
 				$(obj).bindListClick();	
@@ -105,8 +105,7 @@ function checkResponse(s_code, respondent) {
 				alert(data.message);
 			}
 			else {
-				console.log('해당 설문에 참여 가능합니다.');
-				location.href = 'responseSurvey.jsp?s_code=' + data.s_code + '&respondent=' + data.resp;
+				location.href = 'responseSurvey.jsp?s_code=' + s_code + '&respondent=' + respondent;
 			}
 		}
 	});

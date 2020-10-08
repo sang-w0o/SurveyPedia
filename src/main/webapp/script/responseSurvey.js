@@ -90,23 +90,19 @@ $.fn.bindAddInterest = function(){
 
 function showResponseSurvey(s_code) {
 	$.ajax({
-		url: '../GetSurvey.do',
-		type: 'post',
-		data: {
-			s_code: s_code
-		},
+		url: '../GetSurvey.do?s_code=' + s_code,
+		type: 'GET',
 		success: function(data) {
-			if (data.errno != 0) {
-				console.log(data.message);
+			if (!data.result) {
+				alert(data.message);
 				return;
 			}
-			
-			let survey = data.survey;
-			let s_code = survey.s_code;
+
+			let s_code = data.s_code;
 		
-			let li1 = $('<li>').text('작성자: '+survey.email);
+			let li1 = $('<li>').text('작성자: '+data.email);
 			let li2 = $('<li>').text('카테고리: '+ data.c_desc);
-			let li3 = $('<li>').text('제목: '+survey.s_title);
+			let li3 = $('<li>').text('제목: '+data.s_title);
 		
 			$('#btnReport').closest('li').before(li1);
 			$('#btnReport').closest('li').after(li2);

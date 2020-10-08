@@ -36,4 +36,6 @@ public interface SurveysRepository extends JpaRepository<Survey, Integer> {
 
     @Query(value = SQL.SurveyInfo.SURVEY_LIST_BY_CATEGORY, nativeQuery = true)
     List<Object[]> getSurveyListByCategoryAndPage(String c_code, Integer startPos, Integer pageSize);
+
+    Survey findByScode(Integer s_code);
 }

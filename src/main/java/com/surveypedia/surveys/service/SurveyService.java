@@ -1,5 +1,6 @@
 package com.surveypedia.surveys.service;
 
+import com.surveypedia.domain.categories.CategoriesRepository;
 import com.surveypedia.domain.choiceresults.ChoiceResultsRepository;
 import com.surveypedia.domain.members.Members;
 import com.surveypedia.domain.pointhistory.PointHistoryRepository;
@@ -26,6 +27,7 @@ public class SurveyService {
     private final PointHistoryRepository pointHistoryRepository;
     private final ChoiceResultsRepository choiceResultsRepository;
     private final SubjectiveResultsRepository subjectiveResultsRepository;
+    private final CategoriesRepository categoriesRepository;
 
     public org.json.simple.JSONObject getSurveyInfo(HttpServletRequest request, String type) {
         org.json.simple.JSONObject jsonObject = ObjectMaker.getSimpleJSONObject();
@@ -64,6 +66,12 @@ public class SurveyService {
             }
             jsonObject.put("list", jsonArray);
             jsonObject.put("errno", 0);
+            HttpSession session = request.getSession(false);
+            if(session == null || session.getAttribute("userInfo") == null) {
+                jsonObject.put("respondent", null);
+            } else {
+                jsonObject.put("respondent", ((Members) request.getSession(false).getAttribute("userInfo")).getEmail());
+            }
         } catch(Exception exception) {
             exception.printStackTrace();
             jsonObject = ObjectMaker.getJSONObjectWithException(exception);
@@ -206,6 +214,23 @@ public class SurveyService {
             jsonObject.put("result", true);
         } catch(SurveyRespondentIsWriterException | SurveyCheckResponseException exception) {
             jsonObject = ObjectMaker.getJSONObjectWithException(exception);
+        }
+        return jsonObject;
+    }
+
+    public org.json.simple.JSONObject getSurvey(HttpServletRequest request) {
+        int s_code = Integer.parseInt(request.getParameter("s_code"));
+        org.json.simple.JSONObject jsonObject = ObjectMaker.getSimpleJSONObject();
+        try {
+            Survey survey = surveysRepository.findByScode(s_code);
+            String c_desc = categoriesRepository.getDescByC_code(survey.getCcode());
+            jsonObject.put("result", true);
+            jsonObject.put("email", survey.getEmail());
+            jsonObject.put("c_desc", c_desc);
+            jsonObject.put("s_title", survey.getStitle());
+            jsonObject.put("s_code", s_code);
+        } catch(Exception exception) {
+            jsonObject = ObjectMaker.getJSONObjectWithException(new SurveyGetSurveyException());
         }
         return jsonObject;
     }

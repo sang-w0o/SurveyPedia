@@ -19,32 +19,32 @@ public class Survey {
     @Column(nullable = false)
     private String email;
 
-    @Column(nullable = false)
-    private Integer s_id;
+    @Column(nullable = false, name = "s_id")
+    private Integer sid;
 
-    @Column(nullable = false)
-    private String c_code;
+    @Column(nullable = false, name = "c_code")
+    private String ccode;
 
-    @Column(nullable = false)
-    private String s_public;
+    @Column(nullable = false, name = "s_public")
+    private String spublic;
 
     @Column(nullable = false)
     private Integer price;
 
-    @Column(nullable = false)
-    private String s_title;
+    @Column(nullable = false, name = "s_title")
+    private String stitle;
 
-    @Column(nullable = false)
-    private String s_reported;
+    @Column(nullable = false, name = "s_reported")
+    private String sreported;
 
     @Builder
-    public Survey(String s_title, String email, String c_code, String s_public, Integer s_id, Integer price, String s_reported) {
-        this.s_title = s_title;
+    public Survey(String stitle, String email, String ccode, String spublic, Integer s_id, Integer price, String sreported) {
+        this.stitle = stitle;
         this.email = email;
-        this.c_code = c_code;
-        this.s_public = s_public;
-        this.s_id = s_id;
+        this.ccode = ccode;
+        this.spublic = spublic;
+        this.sid = s_id;
         this.price = price;
-        this.s_reported = s_reported;
+        this.sreported = sreported;
     }
 }

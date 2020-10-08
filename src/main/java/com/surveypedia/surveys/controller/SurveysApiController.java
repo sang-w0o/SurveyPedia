@@ -49,4 +49,9 @@ public class SurveysApiController {
     public void checkResponse(@RequestBody SurveyResponseCheckDto checkDto, HttpServletRequest request, HttpServletResponse response) {
         WriteToClient.send(response, surveyService.checkResponse(checkDto));
     }
+
+    @GetMapping("/GetSurvey.do")
+    public void getSurvey(HttpServletRequest request, HttpServletResponse response) {
+        WriteToClient.send(response, surveyService.getSurvey(request));
+    }
 }

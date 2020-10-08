@@ -17,7 +17,7 @@ public class SurveyInsertRequestDto {
     private String s_public;
 
     public Survey toEntity(SurveyInsertRequestDto requestDto, Integer s_id) {
-        return Survey.builder().s_title(s_title).email(email).c_code(c_code).
-                s_public(s_public).s_reported("N").s_id(s_id).price(0).build();
+        return Survey.builder().stitle(s_title).email(email).ccode(c_code).
+                spublic(s_public).sreported("N").s_id(s_id).price(0).build();
     }
 }

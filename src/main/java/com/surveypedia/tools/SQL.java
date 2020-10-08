@@ -92,7 +92,10 @@ public class SQL {
     }
 
     public class PointHistory {
-
         public static final String GET_POINT_BY_EMAIL = "SELECT SUM(B.pointchange) AS point FROM members AS A NATURAL JOIN pointhistory AS B WHERE A.email = ?";
+    }
+
+    public class Category {
+        public static final String GET_DES_BY_CODE = "SELECT c_desc FROM categories WHERE c_code = ?";
     }
 }

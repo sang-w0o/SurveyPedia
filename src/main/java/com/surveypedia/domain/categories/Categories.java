@@ -1,26 +1,29 @@
 package com.surveypedia.domain.categories;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.util.HashMap;
 
+@NoArgsConstructor
 @Getter
 @Entity
 public class Categories {
 
     @Id
-    private String c_code;
+    @Column(name = "c_code")
+    private String ccode;
 
-    @Column
-    private String c_desc;
+    @Column(nullable = false, name = "c_desc")
+    private String cdesc;
 
     public HashMap<String, String> convertMap() {
         HashMap<String, String> map = new HashMap<>();
-        map.put("c_code", c_code);
-        map.put("c_desc", c_desc);
+        map.put("c_code", ccode);
+        map.put("c_desc", cdesc);
         return map;
     }
 }
