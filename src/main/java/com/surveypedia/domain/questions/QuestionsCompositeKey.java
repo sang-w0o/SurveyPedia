@@ -8,19 +8,19 @@ import java.util.Objects;
 @Getter
 public class QuestionsCompositeKey implements Serializable {
 
-    private Integer s_code;
-    private Integer q_number;
+    private Integer scode;
+    private Integer qnumber;
 
     @Override
     public int hashCode() {
-        return Objects.hash(s_code, q_number);
+        return Objects.hash(scode, qnumber);
     }
 
     @Override
     public boolean equals(Object obj) {
         if(obj.getClass().isAssignableFrom(QuestionsCompositeKey.class)) {
             QuestionsCompositeKey key = (QuestionsCompositeKey)obj;
-            return this.s_code == key.getS_code() && this.q_number == key.getQ_number();
+            return this.scode == key.getScode() && this.qnumber == key.getQnumber();
         }
         else return false;
     }

@@ -115,18 +115,16 @@ function showResponseSurvey(s_code) {
 
 function showResponseQuestion(s_code) {
 	$.ajax({
-		url: '../GetQuestion.do',
-		type: 'post',
-		data: {
-			s_code: s_code
-		},
+		url: '../GetQuestion.do?s_code=' + s_code,
+		type: 'GET',
 		success: function(data) {
-			if (data.errno != 0) {
+			if (!data.result) {
+				alert(data.message);
 				return;
 			}
-			for (let i = 0; i < data.list.length; i++) {
+			for (let i = 0; i < data.questions.length; i++) {
 				
-				let q = data.list[i];
+				let q = data.questions[i];
 				let s_code = q.s_code;
 				let q_number = q.q_number;
 				let q_title = q.q_title;

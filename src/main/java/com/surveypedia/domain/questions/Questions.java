@@ -8,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
+import java.util.HashMap;
 
 @NoArgsConstructor
 @Getter
@@ -16,22 +17,32 @@ import javax.persistence.IdClass;
 public class Questions {
 
     @Id
-    private Integer s_code;
+    @Column(name = "s_code")
+    private Integer scode;
 
-    @Column(nullable = false)
-    private Integer q_number;
+    @Column(nullable = false, name = "q_number")
+    private Integer qnumber;
 
-    @Column(nullable = false)
-    private String q_title;
+    @Column(nullable = false, name = "q_title")
+    private String qtitle;
 
-    @Column(nullable = false)
-    private String q_type;
+    @Column(nullable = false, name = "q_type")
+    private String qtype;
 
     @Builder
-    public Questions(Integer s_code, Integer q_number, String q_title, String q_type) {
-        this.s_code = s_code;
-        this.q_number = q_number;
-        this.q_title = q_title;
-        this.q_type = q_type;
+    public Questions(Integer scode, Integer qnumber, String qtitle, String qtype) {
+        this.scode = scode;
+        this.qnumber = qnumber;
+        this.qtitle = qtitle;
+        this.qtype = qtype;
+    }
+
+    public HashMap<String, Object> convertMap() {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("s_code", scode);
+        map.put("q_number", qnumber);
+        map.put("q_title", qtitle);
+        map.put("q_type", qtype);
+        return map;
     }
 }
