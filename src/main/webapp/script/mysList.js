@@ -18,10 +18,10 @@ $.fn.bindGetByMySurveyType = function(){
 					obj.data('survey', survey);
 					obj.data("respondent", data.respondent);
 		
-					if (clicked_myType == 'MY' || clicked_myType == 'inter') {
+					if (clicked_myType == 'MYCURRENT' || clicked_myType == 'INTERESTCURRENT') {
 						obj.bindListClick();
 					}
-					else if (clicked_myType =='MY1' || clicked_myType == 'inter1' || clicked_myType == 'phar') {
+					else if (clicked_myType =='MYENDED' || clicked_myType == 'INTERESTENDED' || clicked_myType == 'PURCHASED') {
 						obj.bindCloseSurveyClick();
 					}
 					
@@ -196,10 +196,11 @@ function checkResponse(s_code, respondent) {
 	$.ajax({
 		url: '../SurveyCheckResponse.do',
 		type: 'post',
-		data: {
+		data: JSON.stringify({
 			s_code: s_code,
 			respondent: respondent
-		},
+		}),
+		contentType: 'application/json',
 		success: function(data) {
 			if (!data.result) {
 				alert(data.message);

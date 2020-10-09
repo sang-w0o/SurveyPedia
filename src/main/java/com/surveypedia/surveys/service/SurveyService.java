@@ -352,6 +352,7 @@ public class SurveyService {
                 jTemp.putAll(dto.convertMap());
                 jsonArray.add(jTemp);
             }
+            jsonObject.put("respondent", ((Members)request.getSession(false).getAttribute("userInfo")).getEmail());
             jsonObject.put("surveys", jsonArray);
         } catch(Exception exception) {
             exception.printStackTrace();
