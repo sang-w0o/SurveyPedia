@@ -4,12 +4,8 @@ $.fn.bindGetByMySurveyType = function(){
 		var clicked_myType = $(this).val();
 		$('.cateCont ul').remove();
 		$.ajax({
-			url:'../SurveyGetMySurveyInfo.do',
-			type:'post',
-			data:{
-				myType: clicked_myType,
-				page:gPage
-			},
+			url:'../SurveyGetMySurveyInfo.do?myType='+clicked_myType+'&page='+gPage,
+			type:'GET',
 			success:function(data){
 				for(let i = 0; i < data.surveys.length; i++){
 					let survey = data.surveys[i];

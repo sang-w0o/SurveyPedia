@@ -74,6 +74,23 @@ public class SQL {
                 "GROUP by s_code) sub3 ON (sub1.s_code = sub3.s_code) where sub1.s_reported != 'Y'\n" +
                 "AND g_sample_num - IFNULL(sample_num, 0) != 0 AND DATE(DATE_ADD(sub1.writtendate, INTERVAL sub1.g_deadLine DAY)) > DATE(NOW()) \n" +
                 "ORDER by TIMESTAMPDIFF(DAY, NOW(), end_date) asc limit ?, ?;";
+
+        public static final String TOTAL_COUNT_OF_CURRENT_SURVEY_BY_EMAIL = "select COUNT(*) FROM (select A.s_code, A.email, A.writtendate, A.s_reported, DATE_ADD(A.writtendate, INTERVAL D.g_deadLine DAY) end_date,\n" +
+                "D.g_sample_num, D.g_deadline FROM survey A, members C, grades D WHERE A.email = C.email AND C.g_name = D.g_name) sub1\n" +
+                "LEFT join (SELECT s_code FROM interests GROUP BY s_code) sub2 ON (sub1.s_code = sub2.s_code) \n" +
+                "LEFT join (select s_code, COUNT(s_code) sample_num from pointhistory WHERE ph_type='P' GROUP by s_code) sub3 ON (sub1.s_code = sub3.s_code)\n" +
+                "where sub1.s_reported != 'Y' AND g_sample_num - IFNULL(sample_num, 0) != 0 AND DATE(DATE_ADD(sub1.writtendate, INTERVAL sub1.g_deadLine DAY)) > DATE(NOW())\n" +
+                "AND sub1.email = ?;";
+
+        public static final String TOTAL_COUNT_OF_ENDED_SURVEY_BY_EMAIL = "SELECT COUNT(*) FROM (SELECT A.s_code, A.email, A.s_reported, DATE_ADD(A.writtendate, INTERVAL D.g_deadLine DAY) end_date, \n" +
+                "D.g_sample_num, D.g_deadline FROM survey A, members C, grades D WHERE A.email = C.email AND C.g_name = D.g_name) sub1 \n" +
+                "LEFT JOIN (SELECT s_code, COUNT(s_code) interest_count FROM interests GROUP BY s_code) sub2 ON (sub1.s_code = sub2.s_code)\n" +
+                "LEFT join (select s_code, COUNT(s_code) sample_num FROM pointhistory WHERE ph_type='P'\n" +
+                "GROUP BY s_code) sub3 ON (sub1.s_code = sub3.s_code)\n" +
+                "where g_sample_num - IFNULL(sample_num, 0) = 0 OR DATE(NOW()) >= DATE(end_date)\n" +
+                "AND sub1.email = ? AND sub1.s_reported != 'Y'\n" +
+                "ORDER by TIMESTAMPDIFF(DAY, NOW(), end_date) ASC;";
+
     }
 
     public class Members {
@@ -94,13 +111,33 @@ public class SQL {
     public class PointHistory {
         public static final String GET_POINT_BY_EMAIL = "SELECT SUM(B.pointchange) AS point FROM members AS A NATURAL JOIN pointhistory AS B WHERE A.email = ?";
         public static final String GET_SAMPLE_COUNT_BY_S_CODE = "SELECT count(*) FROM pointhistory WHERE s_code =? AND pointchange = 5 AND ph_type='P'";
+        public static final String GET_TOTAL_COUNT_OF_PURCHASE_BY_EMAIL = "SELECT count(*) FROM pointhistory WHERE email=? AND ph_type='B'";
     }
 
     public class Category {
-        public static final String GET_DES_BY_CODE = "SELECT c_desc FROM categories WHERE c_code = ?";
+        public static final String GET_DESC_BY_CODE = "SELECT c_desc FROM categories WHERE c_code = ?";
     }
 
     public class Interest {
         public static final String GET_COUNT_BY_S_CODE = "SELECT COUNT(*) FROM interests WHERE s_code=?";
+        public static final String TOTAL_COUNT_OF_INTERESTS_BY_EMAIL = "SELECT COUNT(*) FROM (SELECT A.s_code, DATE_ADD(A.writtendate, INTERVAL D.g_deadLine DAY) end_date,\n" +
+                "A.s_public,\tD.g_sample_num, D.g_deadline, A.writtendate, A.s_reported FROM survey A, members C, grades D \n" +
+                "WHERE A.email = C.email AND C.g_name = D.g_name) sub1 LEFT JOIN (SELECT s_code, COUNT(s_code) interest_count FROM interests \n" +
+                "GROUP BY s_code) sub2 ON (sub1.s_code = sub2.s_code) LEFT join (SELECT s_code, COUNT(s_code) sample_num FROM pointhistory\n" +
+                "WHERE ph_type='P' GROUP BY s_code) sub3 ON (sub1.s_code = sub3.s_code) INNER JOIN (SELECT A.email, A.s_code \n" +
+                "FROM interests A, survey B WHERE A.s_code = B.s_code AND A.email = 'robbyra@gmail.com') sub4 ON (sub4.s_code = sub1.s_code)\n" +
+                "WHERE g_sample_num - IFNULL(sample_num, 0) != 0 AND DATE(DATE_ADD(sub1.writtendate, INTERVAL sub1.g_deadLine DAY)) > DATE(NOW())\n" +
+                "AND sub1.s_reported != 'Y';";
+
+        public static final String TOTAL_COUNT_OF_ENDED_INTEREST_SURVEYS = "SELECT COUNT(*) FROM (SELECT A.s_code, DATE_ADD(A.writtendate, INTERVAL D.g_deadLine DAY) end_date,\n" +
+                "A.s_public, A.s_reported, D.g_sample_num, D.g_deadline FROM survey A, members C, grades D \n" +
+                "WHERE A.email = C.email AND C.g_name = D.g_name) sub1 LEFT JOIN (SELECT s_code, COUNT(s_code) interest_count \n" +
+                "FROM interests GROUP BY s_code) sub2 ON (sub1.s_code = sub2.s_code)\n" +
+                "LEFT join (SELECT s_code, COUNT(s_code) sample_num FROM pointhistory WHERE ph_type='P'\n" +
+                "GROUP BY s_code) sub3 ON (sub1.s_code = sub3.s_code) INNER JOIN \n" +
+                "(select A.email, A.s_code FROM interests A, survey B WHERE A.s_code = B.s_code \n" +
+                "AND A.email = ?) sub4 ON (sub4.s_code = sub1.s_code) WHERE sub1.s_public = 'Y'\n" +
+                "AND sub1.s_reported != 'Y'AND (g_sample_num - IFNULL(sample_num, 0) = 0\n" +
+                "OR DATE(NOW()) >= DATE(end_date));";
     }
 }

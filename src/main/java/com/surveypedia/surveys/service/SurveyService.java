@@ -269,4 +269,19 @@ public class SurveyService {
         }
         return jsonObject;
     }
+
+    @Transactional(readOnly = true)
+    @SuppressWarnings("unchecked")
+    public org.json.simple.JSONObject getMySurveys(HttpServletRequest request) {
+        String email = ((Members)request.getSession(false).getAttribute("userInfo")).getEmail();
+        String myType = request.getParameter("myType");
+        String mode = request.getParameter("mode");
+        mode = (mode == null) ? "" : mode;
+        int page = Integer.parseInt(request.getParameter("page"));
+        int totalRecords = 0;
+        switch(myType) {
+            case "MY":
+
+        }
+    }
 }

@@ -56,4 +56,10 @@ public class SurveysApiController {
     public void updatePrice(HttpServletRequest request, HttpServletResponse response) {
         WriteToClient.send(response, surveyService.updatePrice(request));
     }
+
+    @GetMapping("/SurveyGetMySurveyInfo.do")
+    public void getMySurveys(HttpServletRequest request, HttpServletResponse response) {
+
+    }
+
 }

@@ -39,5 +39,9 @@ public interface SurveysRepository extends JpaRepository<Survey, Integer> {
 
     Survey findByScode(Integer s_code);
 
+    @Query(value = SQL.SurveyInfo.TOTAL_COUNT_OF_CURRENT_SURVEY_BY_EMAIL, nativeQuery = true)
+    Integer getTotalCountOfCurrentSurveysByEmail(String email);
 
+    @Query(value = SQL.SurveyInfo.TOTAL_COUNT_OF_ENDED_SURVEY_BY_EMAIL, nativeQuery = true)
+    Integer getTotalCountOfEndedSurveysByEmail(String email);
 }
