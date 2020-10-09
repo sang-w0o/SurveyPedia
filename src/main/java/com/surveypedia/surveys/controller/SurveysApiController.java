@@ -43,7 +43,7 @@ public class SurveysApiController {
     }
 
     @PostMapping("/SurveyCheckResponse.do")
-    public void checkResponse(@RequestBody SurveyResponseCheckDto checkDto, HttpServletRequest request, HttpServletResponse response) {
+    public void checkResponse(@RequestBody SurveyResponseCheckDto checkDto, HttpServletResponse response) {
         WriteToClient.send(response, surveyService.checkResponse(checkDto));
     }
 
@@ -59,7 +59,7 @@ public class SurveysApiController {
 
     @GetMapping("/SurveyGetMySurveyInfo.do")
     public void getMySurveys(HttpServletRequest request, HttpServletResponse response) {
-
+        WriteToClient.send(response, surveyService.getMySurveys(request));
     }
 
 }

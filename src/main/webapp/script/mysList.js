@@ -1,4 +1,4 @@
-var gPage = 1;
+var gPage = 0;
 $.fn.bindGetByMySurveyType = function(){
 	this.click(function(){
 		var clicked_myType = $(this).val();

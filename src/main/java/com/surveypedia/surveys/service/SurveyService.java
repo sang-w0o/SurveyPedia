@@ -273,61 +273,90 @@ public class SurveyService {
     @Transactional(readOnly = true)
     @SuppressWarnings("unchecked")
     public org.json.simple.JSONObject getMySurveys(HttpServletRequest request) {
+        org.json.simple.JSONObject jsonObject = ObjectMaker.getSimpleJSONObject();
+        org.json.simple.JSONArray jsonArray = ObjectMaker.getSimpleJSONArray();
         String email = ((Members)request.getSession(false).getAttribute("userInfo")).getEmail();
         String myType = request.getParameter("myType");
         String mode = request.getParameter("mode");
         mode = (mode == null) ? "" : mode;
-        int page = Integer.parseInt(request.getParameter("page"));
+        int page = 0;
+        try {
+            int realPage = Integer.parseInt(request.getParameter("page"));
+            page = realPage;
+        } catch(NumberFormatException exception) {
+        }
         int totalRecords = 0;
-        switch(myType) {
-            case "MYCURRENT":
-                totalRecords = surveysRepository.getTotalCountOfCurrentSurveysByEmail(email);
-                break;
-            case "MYENDED":
-                totalRecords = surveysRepository.getTotalCountOfEndedSurveysByEmail(email);
-                break;
-            case "INTERESTCURRENT":
-                totalRecords = interestsRepository.getInterestCountsByEmail(email);
-                break;
-            case "INTERESTENDED":
-                totalRecords = interestsRepository.getInterestCountsOfEndedSurveyByEmail(email);
-                break;
-            case "PURCHASED":
-                totalRecords = pointHistoryRepository.getTotalCountsOfPurchaseByEmail(email);
-                break;
-            default:
-                totalRecords = 0;
-                break;
-        }
+        try {
+            switch (myType) {
+                case "MYCURRENT":
+                    totalRecords = surveysRepository.getTotalCountOfCurrentSurveysByEmail(email);
+                    break;
+                case "MYENDED":
+                    totalRecords = surveysRepository.getTotalCountOfEndedSurveysByEmail(email);
+                    break;
+                case "INTERESTCURRENT":
+                    totalRecords = interestsRepository.getInterestCountsByEmail(email);
+                    break;
+                case "INTERESTENDED":
+                    totalRecords = interestsRepository.getInterestCountsOfEndedSurveyByEmail(email);
+                    break;
+                case "PURCHASED":
+                    totalRecords = pointHistoryRepository.getTotalCountsOfPurchaseByEmail(email);
+                    break;
+                default:
+                    totalRecords = 0;
+                    break;
+            }
 
-        int pageCount = (int)Math.ceil((double)totalRecords / PAGESIZE);
-        switch(mode) {
-            case "first":
-                page = 1;
-                break;
-            case "last":
-                page = pageCount;
-                break;
-            case "prev":
-                if(--page < 1) page = 1;
-                break;
-            case "next":
-                if(++page > pageCount) page = pageCount;
-                break;
-            default:
-                if(page < 1) page = 1;
-                if(page > pageCount) page = pageCount;
-                break;
-        }
+            int pageCount = (int) Math.ceil((double) totalRecords / PAGESIZE);
+            switch (mode) {
+                case "first":
+                    page = 1;
+                    break;
+                case "last":
+                    page = pageCount;
+                    break;
+                case "prev":
+                    if (--page < 1) page = 1;
+                    break;
+                case "next":
+                    if (++page > pageCount) page = pageCount;
+                    break;
+                default:
+                    if (page < 1) page = 1;
+                    if (page > pageCount) page = pageCount;
+                    break;
+            }
 
-        List<SurveyCategoryInfoDto> list = null;
-        switch(myType) {
-            case "MYCURRENT":
-                list = surveysRepository.getCurrentSurveyInfoByEmail(email, page)
-            case "MYENDED":
-            case "INTERESTCURRENT":
-            case "INTERESTENDED":
-            case "PURCHASED":
+            int startPos = ((page - 1) * PAGESIZE < 0) ? 0 : (page - 1) * PAGESIZE;
+            List<SurveyCategoryInfoDto> list = null;
+            switch (myType) {
+                case "MYCURRENT":
+                    list = surveysRepository.getCurrentSurveyInfoByEmail(email, page, PAGESIZE).stream().map(SurveyCategoryInfoDto::new).collect(Collectors.toList());
+                    break;
+                case "MYENDED":
+                    list = surveysRepository.getEndedSurveyInfoByEmail(email, startPos, PAGESIZE).stream().map(SurveyCategoryInfoDto::new).collect(Collectors.toList());
+                    break;
+                case "INTERESTCURRENT":
+                    list = surveysRepository.getInterestCurrentSurveyInfoByEmail(email, startPos, PAGESIZE).stream().map(SurveyCategoryInfoDto::new).collect(Collectors.toList());
+                    break;
+                case "INTERESTENDED":
+                    list = surveysRepository.getInterestEndedSurveyInfoByEmail(email, startPos, PAGESIZE).stream().map(SurveyCategoryInfoDto::new).collect(Collectors.toList());
+                    break;
+                case "PURCHASED":
+                    list = surveysRepository.getPurchasedSurveyInfoByEmail(email, startPos, PAGESIZE).stream().map(SurveyCategoryInfoDto::new).collect(Collectors.toList());
+                    break;
+            }
+            for(SurveyCategoryInfoDto dto : list) {
+                org.json.simple.JSONObject jTemp = ObjectMaker.getSimpleJSONObject();
+                jTemp.putAll(dto.convertMap());
+                jsonArray.add(jTemp);
+            }
+            jsonObject.put("surveys", jsonArray);
+        } catch(Exception exception) {
+            exception.printStackTrace();
+            jsonObject = ObjectMaker.getJSONObjectWithException(new SurveyGetSurveyException());
         }
+        return jsonObject;
     }
 }
