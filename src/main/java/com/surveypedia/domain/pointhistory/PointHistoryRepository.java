@@ -20,4 +20,7 @@ public interface PointHistoryRepository extends JpaRepository<PointHistory, Inte
 
     @Query(value = SQL.PointHistory.GET_SAMPLE_COUNT_BY_S_CODE, nativeQuery = true)
     Integer getSampleCounts(Integer s_code);
+
+    @Query(value = SQL.PointHistory.GET_TOTAL_COUNT_OF_PURCHASE_BY_EMAIL, nativeQuery = true)
+    Integer getTotalCountsOfPurchaseByEmail(String email);
 }

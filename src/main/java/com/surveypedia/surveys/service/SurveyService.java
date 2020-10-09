@@ -280,8 +280,54 @@ public class SurveyService {
         int page = Integer.parseInt(request.getParameter("page"));
         int totalRecords = 0;
         switch(myType) {
-            case "MY":
+            case "MYCURRENT":
+                totalRecords = surveysRepository.getTotalCountOfCurrentSurveysByEmail(email);
+                break;
+            case "MYENDED":
+                totalRecords = surveysRepository.getTotalCountOfEndedSurveysByEmail(email);
+                break;
+            case "INTERESTCURRENT":
+                totalRecords = interestsRepository.getInterestCountsByEmail(email);
+                break;
+            case "INTERESTENDED":
+                totalRecords = interestsRepository.getInterestCountsOfEndedSurveyByEmail(email);
+                break;
+            case "PURCHASED":
+                totalRecords = pointHistoryRepository.getTotalCountsOfPurchaseByEmail(email);
+                break;
+            default:
+                totalRecords = 0;
+                break;
+        }
 
+        int pageCount = (int)Math.ceil((double)totalRecords / PAGESIZE);
+        switch(mode) {
+            case "first":
+                page = 1;
+                break;
+            case "last":
+                page = pageCount;
+                break;
+            case "prev":
+                if(--page < 1) page = 1;
+                break;
+            case "next":
+                if(++page > pageCount) page = pageCount;
+                break;
+            default:
+                if(page < 1) page = 1;
+                if(page > pageCount) page = pageCount;
+                break;
+        }
+
+        List<SurveyCategoryInfoDto> list = null;
+        switch(myType) {
+            case "MYCURRENT":
+                list = surveysRepository.getCurrentSurveyInfoByEmail(email, page)
+            case "MYENDED":
+            case "INTERESTCURRENT":
+            case "INTERESTENDED":
+            case "PURCHASED":
         }
     }
 }

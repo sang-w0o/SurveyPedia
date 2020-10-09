@@ -21,8 +21,8 @@ public class SurveyCategoryInfoDto extends SurveyInfoDto {
         this.s_code = Integer.parseInt(objects[0].toString());
         this.writer = objects[1].toString();
         this.s_title = objects[2].toString();
-        this.written_date = objects[3].toString();
-        this.interest_count = Integer.parseInt(objects[4].toString());
+        this.interest_count = Integer.parseInt(objects[3].toString());
+        this.written_date = objects[4].toString();
     }
 
     public HashMap<String, Object> convertMap() {

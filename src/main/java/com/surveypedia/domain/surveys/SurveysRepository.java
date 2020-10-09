@@ -44,4 +44,19 @@ public interface SurveysRepository extends JpaRepository<Survey, Integer> {
 
     @Query(value = SQL.SurveyInfo.TOTAL_COUNT_OF_ENDED_SURVEY_BY_EMAIL, nativeQuery = true)
     Integer getTotalCountOfEndedSurveysByEmail(String email);
+
+    @Query(value = SQL.SurveyInfo.SURVEY_ENDED_INFO_BY_EMAIL, nativeQuery = true)
+    List<Object[]> getEndedSurveyInfoByEmail(String email, Integer startPos, Integer pageSize);
+
+    @Query(value = SQL.SurveyInfo.SURVEY_CURRENT_INFO_BY_EMAIL, nativeQuery = true)
+    List<Object[]> getCurrentSurveyInfoByEmail(String email, Integer startPos, Integer pageSize);
+
+    @Query(value = SQL.SurveyInfo.SURVEY_INTEREST_CURRENT_INFO_BY_EMAIL, nativeQuery = true)
+    List<Object[]> getInterestCurrentSurveyInfoByEmail(String email, Integer startPos, Integer pageSize);
+
+    @Query(value = SQL.SurveyInfo.SURVEY_INTEREST_ENDED_INFO_BY_EMAIL, nativeQuery = true)
+    List<Object[]> getInterestEndedSurveyInfoByEmail(String email, Integer startPos, Integer pageSize);
+
+    @Query(value = SQL.SurveyInfo.SURVEY_PURCHASED_INFO_BY_EMAIL, nativeQuery = true)
+    List<Object[]> getPurchasedSurveyInfoByEmail(String email, Integer startPos, Integer pageSize);
 }
