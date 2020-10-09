@@ -1,6 +1,5 @@
 package com.surveypedia.surveys.dto;
 
-import com.surveypedia.tools.SQL;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
