@@ -5,6 +5,7 @@ import com.surveypedia.domain.categories.CategoriesRepository;
 import com.surveypedia.tools.ObjectMaker;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -14,6 +15,8 @@ public class CategoriesService {
 
     private final CategoriesRepository categoriesRepository;
 
+    @Transactional(readOnly = true)
+    @SuppressWarnings("unchecked")
     public org.json.simple.JSONObject findAll() {
         org.json.simple.JSONObject jsonObject = ObjectMaker.getSimpleJSONObject();
         List<Categories> categories = categoriesRepository.findAll();

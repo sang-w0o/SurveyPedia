@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -19,6 +20,8 @@ public class QuestionsService {
 
     private final QuestionsRepository questionsRepository;
 
+    @Transactional
+    @SuppressWarnings("unchecked")
     public org.json.simple.JSONObject insert(String request) {
         org.json.simple.JSONObject jsonObject = ObjectMaker.getSimpleJSONObject();
         try {
@@ -42,6 +45,8 @@ public class QuestionsService {
         return jsonObject;
     }
 
+    @Transactional(readOnly = true)
+    @SuppressWarnings("unchecked")
     public org.json.simple.JSONObject getQuestionListByS_code(HttpServletRequest request) {
         int s_code = Integer.parseInt(request.getParameter("s_code"));
         org.json.simple.JSONObject jsonObject = ObjectMaker.getSimpleJSONObject();

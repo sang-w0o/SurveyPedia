@@ -32,6 +32,8 @@ public class SurveyService {
     private final CategoriesRepository categoriesRepository;
     private final InterestsRepository interestsRepository;
 
+    @Transactional(readOnly = true)
+    @SuppressWarnings("unchecked")
     public org.json.simple.JSONObject getSurveyInfo(HttpServletRequest request, String type) {
         org.json.simple.JSONObject jsonObject = ObjectMaker.getSimpleJSONObject();
         List<SurveyInfoDto> list = null;
@@ -86,6 +88,8 @@ public class SurveyService {
         return jsonObject;
     }
 
+    @Transactional(readOnly = true)
+    @SuppressWarnings("unchecked")
     public org.json.simple.JSONObject isRegisterable(HttpServletRequest request) {
         org.json.simple.JSONObject jsonObject = ObjectMaker.getSimpleJSONObject();
         String email = ((Members)request.getSession(false).getAttribute("userInfo")).getEmail();
@@ -101,6 +105,8 @@ public class SurveyService {
         return jsonObject;
     }
 
+    @Transactional
+    @SuppressWarnings("unchecked")
     public org.json.simple.JSONObject insert(SurveyInsertRequestDto requestDto) {
         org.json.simple.JSONObject jsonObject = ObjectMaker.getSimpleJSONObject();
         Integer last_s_id = surveysRepository.getLastS_id(requestDto.getEmail());
@@ -118,6 +124,8 @@ public class SurveyService {
         return jsonObject;
     }
 
+    @Transactional(readOnly = true)
+    @SuppressWarnings("unchecked")
     public org.json.simple.JSONObject getEndedSurveyLists(HttpServletRequest request) {
         org.json.simple.JSONObject jsonObject = ObjectMaker.getSimpleJSONObject();
         org.json.simple.JSONArray jsonArray = ObjectMaker.getSimpleJSONArray();
@@ -143,6 +151,8 @@ public class SurveyService {
         return jsonObject;
     }
 
+    @Transactional(readOnly = true)
+    @SuppressWarnings("unchecked")
     public org.json.simple.JSONObject getSuveyListByCategory(HttpServletRequest request) {
         org.json.simple.JSONObject jsonObject = ObjectMaker.getSimpleJSONObject();
         org.json.simple.JSONArray jsonArray = ObjectMaker.getSimpleJSONArray();
@@ -199,6 +209,8 @@ public class SurveyService {
         return jsonObject;
     }
 
+    @Transactional(readOnly = true)
+    @SuppressWarnings("unchecked")
     public org.json.simple.JSONObject checkResponse(SurveyResponseCheckDto checkDto) {
         org.json.simple.JSONObject jsonObject = ObjectMaker.getSimpleJSONObject();
         String respondent = checkDto.getRespondent();
@@ -221,6 +233,8 @@ public class SurveyService {
         return jsonObject;
     }
 
+    @Transactional(readOnly = true)
+    @SuppressWarnings("unchecked")
     public org.json.simple.JSONObject getSurvey(HttpServletRequest request) {
         int s_code = Integer.parseInt(request.getParameter("s_code"));
         org.json.simple.JSONObject jsonObject = ObjectMaker.getSimpleJSONObject();

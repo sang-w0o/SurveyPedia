@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -15,6 +16,8 @@ public class SubjectiveResultsService {
 
     private final SubjectiveResultsRepository subjectiveResultsRepository;
 
+    @Transactional
+    @SuppressWarnings("unchecked")
     public org.json.simple.JSONObject insert(String request) {
         org.json.simple.JSONObject jsonObject = ObjectMaker.getSimpleJSONObject();
         try {

@@ -8,6 +8,7 @@ import com.surveypedia.interests.exception.InterestInsertException;
 import com.surveypedia.tools.ObjectMaker;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -17,6 +18,8 @@ public class InterestsService {
 
     private final InterestsRepository interestsRepository;
 
+    @Transactional(readOnly = true)
+    @SuppressWarnings("unchecked")
     public org.json.simple.JSONObject interestCheck(HttpServletRequest request) {
         String email = request.getParameter("email");
         int s_code = Integer.parseInt(request.getParameter("s_code"));
@@ -31,6 +34,8 @@ public class InterestsService {
         return jsonObject;
     }
 
+    @Transactional
+    @SuppressWarnings("unchecked")
     public org.json.simple.JSONObject insert(InterestInsertRequestDto requestDto) {
         org.json.simple.JSONObject jsonObject = ObjectMaker.getSimpleJSONObject();
         try {

@@ -57,6 +57,7 @@ public class MemberService {
         return jsonObject;
     }
 
+    @SuppressWarnings("unchecked")
     public org.json.simple.JSONObject logout(HttpServletRequest request){
         org.json.simple.JSONObject jsonObject = ObjectMaker.getSimpleJSONObject();
         try {
@@ -71,6 +72,8 @@ public class MemberService {
         return jsonObject;
     }
 
+    @Transactional
+    @SuppressWarnings("unchecked")
     public org.json.simple.JSONObject changePassword(MemberPassUpdateRequestDto requestDto, HttpServletRequest request) {
         Members member = (Members)request.getSession(false).getAttribute("userInfo");
         org.json.simple.JSONObject jsonObject = ObjectMaker.getSimpleJSONObject();
@@ -86,6 +89,8 @@ public class MemberService {
         return jsonObject;
     }
 
+    @Transactional(readOnly = true)
+    @SuppressWarnings("unchecked")
     public org.json.simple.JSONObject checkEmail(String email) {
         org.json.simple.JSONObject jsonObject = ObjectMaker.getSimpleJSONObject();
         try {
@@ -99,6 +104,8 @@ public class MemberService {
         return jsonObject;
     }
 
+    @Transactional(readOnly = true)
+    @SuppressWarnings("unchecked")
     public org.json.simple.JSONObject checkNick(String nick) {
         org.json.simple.JSONObject jsonObject = ObjectMaker.getSimpleJSONObject();
         try {
@@ -111,6 +118,9 @@ public class MemberService {
         }
         return jsonObject;
     }
+
+    @Transactional
+    @SuppressWarnings("unchecked")
     public org.json.simple.JSONObject signUp(MemberInsertRequestDto requestDto) {
         org.json.simple.JSONObject jsonObject = ObjectMaker.getSimpleJSONObject();
         try {
@@ -123,6 +133,8 @@ public class MemberService {
         return jsonObject;
     }
 
+    @Transactional(readOnly = true)
+    @SuppressWarnings("unchecked")
     public org.json.simple.JSONObject getPoint(HttpServletRequest request) {
         Members member = (Members)request.getSession(false).getAttribute("userInfo");
         Integer point = membersRepository.getPoint(member.getEmail());
@@ -132,6 +144,7 @@ public class MemberService {
         return jsonObject;
     }
 
+    @SuppressWarnings("unchecked")
     public org.json.simple.JSONObject checkLogin(HttpServletRequest request) {
         org.json.simple.JSONObject jsonObject = ObjectMaker.getSimpleJSONObject();
         try {
@@ -213,6 +226,8 @@ public class MemberService {
         }
     }
 
+    @Transactional
+    @SuppressWarnings("unchecked")
     public org.json.simple.JSONObject sendTempPassToEmail(HttpServletRequest request) {
         org.json.simple.JSONObject jsonObject = ObjectMaker.getSimpleJSONObject();
         String email = request.getParameter("email");

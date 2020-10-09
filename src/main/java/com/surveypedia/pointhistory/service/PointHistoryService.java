@@ -17,6 +17,7 @@ import com.surveypedia.tools.ObjectMaker;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -32,6 +33,7 @@ public class PointHistoryService {
     private final SurveysRepository surveysRepository;
     private final MembersRepository membersRepository;
 
+    @Transactional(readOnly = true)
     @SuppressWarnings("unchecked")
     public org.json.simple.JSONObject getPointHistoryList(HttpServletRequest request) {
         org.json.simple.JSONObject jsonObject = ObjectMaker.getSimpleJSONObject();
@@ -60,6 +62,8 @@ public class PointHistoryService {
         return jsonObject;
     }
 
+    @Transactional
+    @SuppressWarnings("unchecked")
     public org.json.simple.JSONObject buyAndSell(PointHistoryPurchaseRequestDto requestDto) {
         org.json.simple.JSONObject jsonObject = ObjectMaker.getSimpleJSONObject();
         try {
@@ -88,6 +92,8 @@ public class PointHistoryService {
         return jsonObject;
     }
 
+    @Transactional
+    @SuppressWarnings("unchecked")
     public org.json.simple.JSONObject insertRespondent(PointHistoryRespondentInsertRequestDto requestDto) {
         org.json.simple.JSONObject jsonObject = ObjectMaker.getSimpleJSONObject();
         try {

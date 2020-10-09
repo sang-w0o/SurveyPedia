@@ -9,6 +9,7 @@ import com.surveypedia.reports.exception.ReportInsertException;
 import com.surveypedia.tools.ObjectMaker;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -18,6 +19,8 @@ public class ReportsService {
 
     private final ReportsRepository reportsRepository;
 
+    @Transactional(readOnly = true)
+    @SuppressWarnings("unchecked")
     public org.json.simple.JSONObject reportCheck(HttpServletRequest request) {
         int s_code = Integer.parseInt(request.getParameter("s_code"));
         String reporter = request.getParameter("reporter");
@@ -32,6 +35,8 @@ public class ReportsService {
         return jsonObject;
     }
 
+    @Transactional
+    @SuppressWarnings("unchecked")
     public org.json.simple.JSONObject insert(ReportInsertRequestDto requestDto) {
         org.json.simple.JSONObject jsonObject = ObjectMaker.getSimpleJSONObject();
         try {

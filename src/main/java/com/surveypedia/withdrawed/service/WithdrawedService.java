@@ -9,6 +9,7 @@ import com.surveypedia.members.exception.MemberLoginException;
 import com.surveypedia.tools.ObjectMaker;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -19,6 +20,8 @@ public class WithdrawedService {
     private final WithdrawedRepository withdrawedRepository;
     private final MembersRepository membersRepository;
 
+    @Transactional
+    @SuppressWarnings("unchecked")
     public org.json.simple.JSONObject withdrawInsert(String pass, HttpServletRequest request) {
         org.json.simple.JSONObject jsonObject = ObjectMaker.getSimpleJSONObject();
         Members member = (Members)request.getSession(false).getAttribute("userInfo");
