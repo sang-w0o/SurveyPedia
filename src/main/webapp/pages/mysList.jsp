@@ -3,11 +3,11 @@
 <div class="ctwrap">
 	<div class="categories">
 		<ul>
-			<li><button type="button" name="category" value="MY">진행중인 내 설문</button></li>
-			<li><button type="button" name="category" value="MY1">마감된 내 설문</button></li>
-			<li><button type="button" name="category" value="inter">진행중인 관심 설문</button></li>
-			<li><button type="button" name="category" value="inter1">마감된 관심 설문</button></li>
-			<li><button type="button" name="category" value="phar">구매한 설문</button></li>
+			<li><button type="button" name="category" value="MYCURRENT">진행중인 내 설문</button></li>
+			<li><button type="button" name="category" value="MYENDED">마감된 내 설문</button></li>
+			<li><button type="button" name="category" value="INTERESTCURRENT">진행중인 관심 설문</button></li>
+			<li><button type="button" name="category" value="INTERESTENDED">마감된 관심 설문</button></li>
+			<li><button type="button" name="category" value="PURCHASED">구매한 설문</button></li>
 		</ul>
 	</div>
 	<div class="categorySurvey">

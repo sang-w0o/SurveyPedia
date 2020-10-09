@@ -42,14 +42,10 @@ $.fn.bindGetNext = function(){
 	this.click(function(){
 		var clicked_myType = $('.cateBottom #btnNext').val();
 		$('.cateCont ul').remove();
+		let myType = $('.cateBottom #btnNext').val();
 		$.ajax({
-			url:'../SurveyGetMySurveyInfo.do',
-			type:'post',
-			data:{
-				mode:"next",
-				myType:$('.cateBottom #btnNext').val(),
-				page:gPage
-			},
+			url:'../SurveyGetMySurveyInfo.do?mode=next&myType='+myType+'&page='+gPage,
+			type:'GET',
 			success:function(data){
 				for(let i = 0; i < data.surveys.length; i++){
 					let survey = data.surveys[i];
@@ -79,14 +75,10 @@ $.fn.bindGetPrev = function(){
 	this.click(function(){
 		var clicked_myType = $('.cateBottom #btnPrev').val();
 		$('.cateCont ul').remove();
+		let myType = $('.cateBottom #btnPrev').val();
 		$.ajax({
-			url:'../SurveyGetMySurveyInfo.do',
-			type:'post',
-			data:{
-				mode:"prev",
-				myType:$('.cateBottom #btnPrev').val(),
-				page:gPage
-			},
+			url:'../SurveyGetMySurveyInfo.do?mode=prev&myType='+myType+'&page='+gPage,
+			type:'GET',
 			success:function(data){
 				for(let i = 0 ;i < data.surveys.length; i++){
 					let survey = data.surveys[i];
@@ -116,13 +108,10 @@ $.fn.bindGetFirst = function(){
 	this.click(function(){
 		var clicked_myType = $('.cateBottom #btnFirst').val();
 		$('.cateCont ul').remove();
+		let myType = $('.cateBottom #btnFirst').val();
 		$.ajax({
-			url:'../SurveyGetMySurveyInfo.do',
-			type:'get',
-			data:{
-				mode:"first",
-				myType:$('.cateBottom #btnFirst').val()
-			},
+			url:'../SurveyGetMySurveyInfo.do?mode=first&myType='+myType,
+			type:'GET',
 			success:function(data){
 				for(let i = 0 ;i < data.surveys.length; i++){
 					let survey = data.surveys[i];
@@ -153,13 +142,10 @@ $.fn.bindGetLast = function(){
 	this.click(function(){
 		var clicked_myType = $('.cateBottom #btnLast').val();
 		$('.cateCont ul').remove();
+		let myType = $('.cateBottom #btnLast').val();
 		$.ajax({
-			url:'../SurveyGetMySurveyInfo.do',
-			type:'post',
-			data:{
-				mode:"last",
-				myType:$('.cateBottom #btnLast').val()
-			},
+			url:'../SurveyGetMySurveyInfo.do?mode=last&myType='+myType,
+			type:'GET',
 			success:function(data){
 				for(let i = 0 ;i < data.surveys.length; i++){
 					let survey = data.surveys[i];
@@ -215,11 +201,10 @@ function checkResponse(s_code, respondent) {
 			respondent: respondent
 		},
 		success: function(data) {
-			if (data.errno != 0) {
+			if (!data.result) {
 				alert(data.message);
 			}
 			else {
-				console.log('해당 설문에 참여 가능합니다.');
 				location.href = 'responseSurvey.jsp?s_code=' + data.s_code + '&respondent=' + data.resp;
 			}
 		}
