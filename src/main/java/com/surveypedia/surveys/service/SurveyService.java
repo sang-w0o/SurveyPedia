@@ -5,6 +5,7 @@ import com.surveypedia.domain.choiceresults.ChoiceResultsRepository;
 import com.surveypedia.domain.interests.InterestsRepository;
 import com.surveypedia.domain.members.Members;
 import com.surveypedia.domain.pointhistory.PointHistoryRepository;
+import com.surveypedia.domain.pointhistory.PointHistoryType;
 import com.surveypedia.domain.subjectiveresults.SubjectiveResultsRepository;
 import com.surveypedia.domain.surveys.Survey;
 import com.surveypedia.domain.surveys.SurveysRepository;
@@ -357,6 +358,23 @@ public class SurveyService {
         } catch(Exception exception) {
             exception.printStackTrace();
             jsonObject = ObjectMaker.getJSONObjectWithException(new SurveyGetSurveyException());
+        }
+        return jsonObject;
+    }
+
+    @Transactional(readOnly = true)
+    @SuppressWarnings("unchecked")
+    public org.json.simple.JSONObject checkResultView(HttpServletRequest request) {
+        org.json.simple.JSONObject jsonObject = ObjectMaker.getSimpleJSONObject();
+        String email = ((Members)request.getSession(false).getAttribute("userInfo")).getEmail();
+        int s_code = Integer.parseInt(request.getParameter("s_code"));
+        try {
+            if ((surveysRepository.findByEmailAndScode(email, s_code) != null) || (pointHistoryRepository.findByEmailAndPhtypeAndScode(email, PointHistoryType.B, s_code) != null)) {
+                jsonObject.put("result", true);
+            } else throw new SurveyResultNotViewableException();
+        } catch(Exception exception) {
+            exception.printStackTrace();
+            jsonObject = ObjectMaker.getJSONObjectWithException(new SurveyResultNotViewableException());
         }
         return jsonObject;
     }

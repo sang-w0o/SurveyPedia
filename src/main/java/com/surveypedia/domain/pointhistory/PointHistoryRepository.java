@@ -23,4 +23,6 @@ public interface PointHistoryRepository extends JpaRepository<PointHistory, Inte
 
     @Query(value = SQL.PointHistory.GET_TOTAL_COUNT_OF_PURCHASE_BY_EMAIL, nativeQuery = true)
     Integer getTotalCountsOfPurchaseByEmail(String email);
+
+    PointHistory findByEmailAndPhtypeAndScode(String email, PointHistoryType type, Integer s_code);
 }

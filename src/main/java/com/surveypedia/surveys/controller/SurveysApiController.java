@@ -62,4 +62,9 @@ public class SurveysApiController {
         WriteToClient.send(response, surveyService.getMySurveys(request));
     }
 
+    @GetMapping("/SurveyCheckResultView.do")
+    public void checkResultView(HttpServletRequest request, HttpServletResponse response) {
+        WriteToClient.send(response, surveyService.checkResultView(request));
+    }
+
 }

@@ -63,7 +63,7 @@ $.checkViewable = function(){
 		s_code = arr2[1];
 	}
 	$.ajax({
-		url:'../CheckResultView.do?s_code='+s_code,
+		url:'../SurveyCheckResultView.do?s_code='+s_code,
 		type:'GET',
 		success:function(data){
 			if(data.result){
