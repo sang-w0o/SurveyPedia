@@ -61,4 +61,9 @@ public class MembersApiController {
     public void sendTempPassToEmail(HttpServletRequest request, HttpServletResponse response) {
         WriteToClient.send(response, memberService.sendTempPassToEmail(request));
     }
+
+    @GetMapping("/CheckAdminAccess.do")
+    public void checkAdminAccess(HttpServletRequest request, HttpServletResponse response) {
+        WriteToClient.send(response, memberService.checkAdminAccess(request));
+    }
 }

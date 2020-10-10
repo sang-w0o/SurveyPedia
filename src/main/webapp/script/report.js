@@ -1,7 +1,7 @@
 $.checkAdminAccess = function(){
 	$.ajax({
 		url:'../CheckAdminAccess.do',
-		type:'post',
+		type:'GET',
 		success:function(data){
 			if(!data.result){
 				alert(data.message);

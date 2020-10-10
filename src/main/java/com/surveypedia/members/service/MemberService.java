@@ -37,6 +37,8 @@ public class MemberService {
     public org.json.simple.JSONObject login(String email, String pass, HttpServletRequest request) {
         org.json.simple.JSONObject jsonObject = ObjectMaker.getSimpleJSONObject();
         if(email.equals("admin@surveypro.com")) {
+            Members member = membersRepository.findByEmail(email);
+            request.getSession().setAttribute("userInfo", member);
             jsonObject.put("errno", 2);
             jsonObject.put("message", "관리자 페이지로 이동합니다.");
             return jsonObject;
@@ -252,6 +254,27 @@ public class MemberService {
         membersRepository.changePass(pass, email);
         jsonObject.put("result", true);
         jsonObject.put("message", "이메일이 발송되었습니다.\n만약 이메일이 오지 않았다면 스팸함을 확인해 주세요!");
+        return jsonObject;
+    }
+
+    @SuppressWarnings("unchecked")
+    public org.json.simple.JSONObject checkAdminAccess(HttpServletRequest request) {
+        org.json.simple.JSONObject jsonObject = ObjectMaker.getSimpleJSONObject();
+        try {
+            HttpSession session = request.getSession(false);
+            if (session == null || session.getAttribute("userInfo") == null) {
+                System.out.println("SESSION IS NULL");
+                throw new MemberAdminAccessException();
+            }
+            Members member = (Members)session.getAttribute("userInfo");
+            System.out.println(member.getEmail());
+            if(!member.getEmail().equals("admin@surveypro.com")) {
+                throw new MemberAdminAccessException();
+            }
+            jsonObject.put("result", true);
+        } catch(MemberAdminAccessException exception) {
+            jsonObject = ObjectMaker.getJSONObjectWithException(exception);
+        }
         return jsonObject;
     }
 }
