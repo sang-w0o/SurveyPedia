@@ -2,7 +2,7 @@ package com.surveypedia.tools;
 
 public class SQL {
 
-    public class SurveyInfo {
+    public static class SurveyInfo {
 
         public static final String SURVEY_INFO_BY_DEAD_LINE = "SELECT nick writer, s_title, ifnull(0, interest_count), DATE(writtendate) written_date, DATE(end_date) end_date, sub1.s_code s_code FROM \n" +
                 "(SELECT A.s_code, C.nick, A.s_title, A.writtendate, A.s_reported, DATE_ADD(A.writtendate, INTERVAL D.g_deadLine DAY) end_date,\n" +
@@ -154,14 +154,14 @@ public class SQL {
                 "ORDER by TIMESTAMPDIFF(DAY, NOW(), end_date) ASC;";
     }
 
-    public class Members {
+    public static class Members {
 
         public static final String MEMBER_PASS_UPDATE = "UPDATE members SET pass=PASSWORD(?) WHERE email=?";
         public static final String MEMBER_SIGNUP = "INSERT INTO members VALUES(?, PASSWORD(?), ?, DEFAULT, 'IRON')";
         public static final String MEMBER_POINT = "SELECT IFNULL(SUM(p.pointchange), 0) FROM members m NATURAL JOIN pointhistory p WHERE m.email = ?";
     }
 
-    public class Survey {
+    public static class Survey {
 
         public static final String SURVEY_HISTORY_BY_CODE = "SELECT s_code, s_title, email, c_code FROM survey WHERE s_code=?";
         public static final String SURVEY_WRITE_COUNT = "SELECT COUNT(*) FROM survey WHERE email=?";
@@ -169,17 +169,17 @@ public class SQL {
         public static final String SURVEY_LAST_S_ID = "SELECT s_id FROM survey WHERE email=? AND s_reported != 'Y' ORDER BY s_code DESC LIMIT 1;";
     }
 
-    public class PointHistory {
+    public static class PointHistory {
         public static final String GET_POINT_BY_EMAIL = "SELECT SUM(B.pointchange) AS point FROM members AS A NATURAL JOIN pointhistory AS B WHERE A.email = ?";
         public static final String GET_SAMPLE_COUNT_BY_S_CODE = "SELECT count(*) FROM pointhistory WHERE s_code =? AND pointchange = 5 AND ph_type='P'";
         public static final String GET_TOTAL_COUNT_OF_PURCHASE_BY_EMAIL = "SELECT count(*) FROM pointhistory WHERE email=? AND ph_type='B'";
     }
 
-    public class Category {
+    public static class Category {
         public static final String GET_DESC_BY_CODE = "SELECT c_desc FROM categories WHERE c_code = ?";
     }
 
-    public class Interest {
+    public static class Interest {
         public static final String GET_COUNT_BY_S_CODE = "SELECT COUNT(*) FROM interests WHERE s_code=?";
         public static final String TOTAL_COUNT_OF_INTERESTS_BY_EMAIL = "SELECT COUNT(*) FROM (SELECT A.s_code, DATE_ADD(A.writtendate, INTERVAL D.g_deadLine DAY) end_date,\n" +
                 "A.s_public,\tD.g_sample_num, D.g_deadline, A.writtendate, A.s_reported FROM survey A, members C, grades D \n" +
@@ -202,19 +202,19 @@ public class SQL {
                 "OR DATE(NOW()) >= DATE(end_date));";
     }
 
-    public class Choices {
+    public static class Choices {
         public static final String GET_CHOICE_NUMBERS_BY_S_CODE_AND_Q_NUMBER = "SELECT choice_num FROM choices WHERE s_code = ? AND q_number = ?;";
     }
 
-    public class ChoiceResults {
+    public static class ChoiceResults {
         public static final String GET_CHOICE_COUNTS_BY_S_CODE_AND_Q_NUMBER_AND_CHOICE_NUM = "SELECT COUNT(*) FROM choiceresults WHERE s_code=? AND q_number=? AND choice_num=?";
     }
 
-    public class SubjectiveResults{
+    public static class SubjectiveResults{
         public static final String GET_ANSWERS_BY_S_CODE_AND_Q_NUMBER = "SELECT answer FROM subjectiveresults WHERE s_code=? AND q_number=?";
     }
 
-    public class Reports {
+    public static class Reports {
         public static final String REMOVE_REPORT_BY_S_CODE = "DELETE FROM reports WHERE s_code=?";
     }
 }

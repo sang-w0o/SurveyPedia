@@ -280,8 +280,7 @@ public class SurveyService {
         mode = (mode == null) ? "" : mode;
         int page = 0;
         try {
-            int realPage = Integer.parseInt(request.getParameter("page"));
-            page = realPage;
+            page = Integer.parseInt(request.getParameter("page"));
         } catch(NumberFormatException exception) {
         }
         int totalRecords = 0;
