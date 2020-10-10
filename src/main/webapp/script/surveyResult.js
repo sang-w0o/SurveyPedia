@@ -19,7 +19,7 @@ $.loadSurvey = function(){
 		s_code = arr2[1];
 	}
 	$.ajax({
-		url:'../QuestionResultGet.do?s_code='+s_code,
+		url:'../SurveyGetResult.do?s_code='+s_code,
 		type:'GET',
 		success:function(data){
 			let ult = $('<ul/>').appendTo(".resultTop");

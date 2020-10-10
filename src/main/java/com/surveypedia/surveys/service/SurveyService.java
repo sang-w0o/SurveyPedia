@@ -2,10 +2,13 @@ package com.surveypedia.surveys.service;
 
 import com.surveypedia.domain.categories.CategoriesRepository;
 import com.surveypedia.domain.choiceresults.ChoiceResultsRepository;
+import com.surveypedia.domain.choices.ChoicesRepository;
 import com.surveypedia.domain.interests.InterestsRepository;
 import com.surveypedia.domain.members.Members;
 import com.surveypedia.domain.pointhistory.PointHistoryRepository;
 import com.surveypedia.domain.pointhistory.PointHistoryType;
+import com.surveypedia.domain.questions.Questions;
+import com.surveypedia.domain.questions.QuestionsRepository;
 import com.surveypedia.domain.subjectiveresults.SubjectiveResultsRepository;
 import com.surveypedia.domain.surveys.Survey;
 import com.surveypedia.domain.surveys.SurveysRepository;
@@ -18,6 +21,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,6 +37,8 @@ public class SurveyService {
     private final SubjectiveResultsRepository subjectiveResultsRepository;
     private final CategoriesRepository categoriesRepository;
     private final InterestsRepository interestsRepository;
+    private final QuestionsRepository questionsRepository;
+    private final ChoicesRepository choicesRepository;
 
     @Transactional(readOnly = true)
     @SuppressWarnings("unchecked")
@@ -94,13 +101,7 @@ public class SurveyService {
     public org.json.simple.JSONObject isRegisterable(HttpServletRequest request) {
         org.json.simple.JSONObject jsonObject = ObjectMaker.getSimpleJSONObject();
         String email = ((Members)request.getSession(false).getAttribute("userInfo")).getEmail();
-        int writeCount = surveysRepository.getWriteCount(email);
-        int participateCount = pointHistoryRepository.getParticipateCount(email);
-        try {
-            boolean result = (((participateCount / 2) - writeCount) > -1);
-            if(!result) throw new SurveyInsertCheckException();
-            jsonObject.put("result", true);
-        } catch(SurveyInsertCheckException exception) {
+        int writeCount = surveysRepository.getWriteCount(email); int participateCount = pointHistoryRepository.getParticipateCount(email); try { boolean result = (((participateCount / 2) - writeCount) > -1); if(!result) throw new SurveyInsertCheckException(); jsonObject.put("result", true); } catch(SurveyInsertCheckException exception) {
             jsonObject = ObjectMaker.getJSONObjectWithException(exception);
         }
         return jsonObject;
@@ -375,6 +376,60 @@ public class SurveyService {
         } catch(Exception exception) {
             exception.printStackTrace();
             jsonObject = ObjectMaker.getJSONObjectWithException(new SurveyResultNotViewableException());
+        }
+        return jsonObject;
+    }
+
+    @Transactional(readOnly = true)
+    @SuppressWarnings("unchecked")
+    public org.json.simple.JSONObject getResults(HttpServletRequest request) {
+        org.json.simple.JSONObject jsonObject = ObjectMaker.getSimpleJSONObject();
+        org.json.simple.JSONArray jsonArray = ObjectMaker.getSimpleJSONArray();
+        int s_code = Integer.parseInt(request.getParameter("s_code"));
+        try {
+            Survey survey = surveysRepository.findByScode(s_code);
+            String c_desc = categoriesRepository.getDescByC_code(survey.getCcode());
+            String title = survey.getStitle();
+            String email = survey.getEmail();
+            int sample_num = pointHistoryRepository.getSampleCounts(s_code);
+            List<Questions> questionsList = questionsRepository.findByScode(s_code);
+            ArrayList<SurveyResultDto> resultList = new ArrayList<>();
+            List<Integer> choicesList = null;
+            List<String> subjectiveList = null;
+            HashMap<String, Integer> choiceResults = new HashMap<>();
+            for(Questions question : questionsList) {
+                SurveyResultDto resultDto = new SurveyResultDto();
+                resultDto.setS_code(s_code);
+                resultDto.setQ_number(question.getQnumber());
+                resultDto.setQ_title(question.getQtitle());
+                resultDto.setQ_type(question.getQtype());
+                if(question.getQtype().equals("C")) {
+                    choicesList = choicesRepository.getChoiceNumbers(s_code, question.getQnumber());
+                    for(Integer choice_number : choicesList) {
+                        int value = choiceResultsRepository.getChoiceCounts(s_code, question.getQnumber(), choice_number);
+                        String choice_content = choicesRepository.findByScodeAndQnumberAndChoicenum(s_code, question.getQnumber(), choice_number).getChoicecontent();
+                        choiceResults.put(choice_content, value);
+                    }
+                    resultDto.setChoices(choiceResults);
+                } else {
+                    subjectiveList = subjectiveResultsRepository.getAnswers(s_code, question.getQnumber());
+                    resultDto.setSubjectives(subjectiveList);
+                }
+                resultList.add(resultDto);
+            }
+            jsonObject.put("result", true);
+            jsonObject.put("email", email);
+            jsonObject.put("category", c_desc);
+            jsonObject.put("title", title);
+            jsonObject.put("sample", sample_num);
+            for(SurveyResultDto dto : resultList) {
+                org.json.simple.JSONObject jTemp = ObjectMaker.getSimpleJSONObject();
+                jTemp.putAll(dto.convertMap());
+                jsonArray.add(jTemp);
+            }
+            jsonObject.put("list", jsonArray);
+        } catch(Exception exception) {
+            jsonObject = ObjectMaker.getJSONObjectWithException(new SurveyGetSurveyException());
         }
         return jsonObject;
     }

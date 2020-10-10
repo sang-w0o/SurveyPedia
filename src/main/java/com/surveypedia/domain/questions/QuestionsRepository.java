@@ -6,5 +6,4 @@ import java.util.List;
 
 public interface QuestionsRepository extends JpaRepository<Questions, Integer> {
 
-    List<Questions> findByScode(Integer s_code);
-}
+    List<Questions> findByScode(Integer s_code);}

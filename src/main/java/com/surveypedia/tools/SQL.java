@@ -201,4 +201,16 @@ public class SQL {
                 "AND sub1.s_reported != 'Y'AND (g_sample_num - IFNULL(sample_num, 0) = 0\n" +
                 "OR DATE(NOW()) >= DATE(end_date));";
     }
+
+    public class Choices {
+        public static final String GET_CHOICE_NUMBERS_BY_S_CODE_AND_Q_NUMBER = "SELECT choice_num FROM choices WHERE s_code = ? AND q_number = ?;";
+    }
+
+    public class ChoiceResults {
+        public static final String GET_CHOICE_COUNTS_BY_S_CODE_AND_Q_NUMBER_AND_CHOICE_NUM = "SELECT COUNT(*) FROM choiceresults WHERE s_code=? AND q_number=? AND choice_num=?";
+    }
+
+    public class SubjectiveResults{
+        public static final String GET_ANSWERS_BY_S_CODE_AND_Q_NUMBER = "SELECT answer FROM subjectiveresults WHERE s_code=? AND q_number=?";
+    }
 }

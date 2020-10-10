@@ -67,4 +67,8 @@ public class SurveysApiController {
         WriteToClient.send(response, surveyService.checkResultView(request));
     }
 
+    @GetMapping("/SurveyGetResult.do")
+    public void getResults(HttpServletRequest request, HttpServletResponse response) {
+        WriteToClient.send(response, surveyService.getResults(request));
+    }
 }
