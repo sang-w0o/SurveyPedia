@@ -86,7 +86,6 @@ public class SurveyService {
                 jsonObject.put("respondent", ((Members) request.getSession(false).getAttribute("userInfo")).getEmail());
             }
         } catch(Exception exception) {
-            exception.printStackTrace();
             jsonObject = ObjectMaker.getJSONObjectWithException(exception);
             jsonObject.put("errno", 1);
         }
@@ -120,7 +119,6 @@ public class SurveyService {
             jsonObject.put("s_code", s_code);
             jsonObject.put("message", "설문지가 정상적으로 등록 되었습니다!");
         } catch(Exception exception) {
-            exception.printStackTrace();
             jsonObject = ObjectMaker.getJSONObjectWithException(new SurveyInsertException());
         }
         return jsonObject;
@@ -147,7 +145,6 @@ public class SurveyService {
             jsonObject.put("result", true);
             jsonObject.put("endSurveyList", jsonArray);
         } catch(Exception exception) {
-            exception.printStackTrace();
             jsonObject = ObjectMaker.getJSONObjectWithException(new SurveyGetEndSurveyException());
         }
         return jsonObject;
@@ -357,7 +354,6 @@ public class SurveyService {
             jsonObject.put("respondent", ((Members)request.getSession(false).getAttribute("userInfo")).getEmail());
             jsonObject.put("surveys", jsonArray);
         } catch(Exception exception) {
-            exception.printStackTrace();
             jsonObject = ObjectMaker.getJSONObjectWithException(new SurveyGetSurveyException());
         }
         return jsonObject;
@@ -374,7 +370,6 @@ public class SurveyService {
                 jsonObject.put("result", true);
             } else throw new SurveyResultNotViewableException();
         } catch(Exception exception) {
-            exception.printStackTrace();
             jsonObject = ObjectMaker.getJSONObjectWithException(new SurveyResultNotViewableException());
         }
         return jsonObject;

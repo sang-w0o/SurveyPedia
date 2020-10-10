@@ -41,7 +41,6 @@ public class WithdrawedService {
         } catch(MemberLoginCheckException | MemberLoginException exception) {
             jsonObject = ObjectMaker.getJSONObjectWithException(exception);
         } catch(Exception exception) {
-            exception.printStackTrace();
             jsonObject = ObjectMaker.getJSONObjectWithException(new Exception("알 수 없는 이유로 탈퇴 처리에 실패했습니다."));
         }
         return jsonObject;

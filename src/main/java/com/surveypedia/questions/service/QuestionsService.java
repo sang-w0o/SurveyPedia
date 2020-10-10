@@ -39,7 +39,6 @@ public class QuestionsService {
             jsonObject.put("result", true);
             jsonObject.put("s_code", requestObject.getInt("s_code"));
         } catch(Exception exception) {
-            exception.printStackTrace();
             jsonObject = ObjectMaker.getJSONObjectWithException(new QuestionInsertException());
         }
         return jsonObject;
