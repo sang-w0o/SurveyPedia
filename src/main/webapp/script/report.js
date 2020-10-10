@@ -66,12 +66,10 @@ $.getAllReports = function(){
 
 $.fn.bindBtnApprove = function(){
 	$(this).click(function(){
+		let s_code = $(this).closest('ul').data('s_code');
 		$.ajax({
-			url:'../ReportApprove.do',
-			type:'post',
-			data:{
-				s_code : $(this).closest('ul').data('s_code')
-			},
+			url:'../ReportApprove.do?s_code='+s_code,
+			type:'PUT',
 			success:function(data){
 				if(data.result){
 					alert(data.message);

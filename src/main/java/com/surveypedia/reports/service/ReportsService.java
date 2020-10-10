@@ -3,7 +3,9 @@ package com.surveypedia.reports.service;
 import com.surveypedia.domain.reports.ReportState;
 import com.surveypedia.domain.reports.Reports;
 import com.surveypedia.domain.reports.ReportsRepository;
+import com.surveypedia.domain.surveys.SurveysRepository;
 import com.surveypedia.reports.dto.ReportInsertRequestDto;
+import com.surveypedia.reports.dto.ReportResponseDto;
 import com.surveypedia.reports.exception.ReportCheckException;
 import com.surveypedia.reports.exception.ReportInsertException;
 import com.surveypedia.tools.ObjectMaker;
@@ -12,12 +14,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
 public class ReportsService {
 
     private final ReportsRepository reportsRepository;
+    private final SurveysRepository surveysRepository;
 
     @Transactional(readOnly = true)
     @SuppressWarnings("unchecked")
@@ -51,6 +56,22 @@ public class ReportsService {
         } catch(Exception exception) {
             jsonObject = ObjectMaker.getJSONObjectWithException(new ReportInsertException());
         }
+        return jsonObject;
+    }
+
+    @Transactional(readOnly = true)
+    @SuppressWarnings("unchecked")
+    public org.json.simple.JSONObject getAllReports() {
+        org.json.simple.JSONObject jsonObject = ObjectMaker.getSimpleJSONObject();
+        org.json.simple.JSONArray jsonArray = ObjectMaker.getSimpleJSONArray();
+        List<ReportResponseDto> reportsList = reportsRepository.findAll().stream().map(ReportResponseDto::new).collect(Collectors.toList());
+        for(ReportResponseDto dto : reportsList) {
+            org.json.simple.JSONObject jTemp = ObjectMaker.getSimpleJSONObject();
+            jTemp.putAll(dto.convertMap());
+            jTemp.put("reportedWriter", surveysRepository.findByScode(dto.getS_code()).getEmail());
+            jsonArray.add(jTemp);
+        }
+        jsonObject.put("reports", jsonArray);
         return jsonObject;
     }
 }

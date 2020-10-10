@@ -41,4 +41,8 @@ public class Reports {
         this.rtype = rtype.equals("W") ? ReportType.W : ReportType.R;
         this.reportstate = reportstate;
     }
+
+    public void updateReportState(ReportState reportState) {
+        this.reportstate = reportState;
+    }
 }
