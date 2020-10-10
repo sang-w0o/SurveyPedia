@@ -19,11 +19,8 @@ $.loadSurvey = function(){
 		s_code = arr2[1];
 	}
 	$.ajax({
-		url:'../QuestionResultGet.do',
-		type:'post',
-		data:{
-			s_code: s_code
-		},
+		url:'../QuestionResultGet.do?s_code='+s_code,
+		type:'GET',
 		success:function(data){
 			let ult = $('<ul/>').appendTo(".resultTop");
 			$('<li>작성자 : '+data.email+'</li>').appendTo(ult);
@@ -51,7 +48,6 @@ $.loadSurvey = function(){
 				$(ulm).appendTo(".resultMid");
 				$(li).prependTo(ulm);
 			}
-			//이메일 카테고리 참여자수 설문이름
 		}
 	})
 }
@@ -67,11 +63,8 @@ $.checkViewable = function(){
 		s_code = arr2[1];
 	}
 	$.ajax({
-		url:'../CheckResultView.do',
-		type:'post',
-		data:{
-			s_code:s_code
-		},
+		url:'../CheckResultView.do?s_code='+s_code,
+		type:'GET',
 		success:function(data){
 			if(data.result){
 				$.loadSurvey();
