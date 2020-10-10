@@ -59,4 +59,5 @@ public interface SurveysRepository extends JpaRepository<Survey, Integer> {
 
     @Query(value = SQL.SurveyInfo.SURVEY_PURCHASED_INFO_BY_EMAIL, nativeQuery = true)
     List<Object[]> getPurchasedSurveyInfoByEmail(String email, Integer startPos, Integer pageSize);
+
 }

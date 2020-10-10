@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 public interface MembersRepository extends JpaRepository<Members, String> {
 
 
@@ -27,4 +29,7 @@ public interface MembersRepository extends JpaRepository<Members, String> {
 
     @Query(value = SQL.Members.MEMBER_POINT, nativeQuery = true)
     Integer getPoint(String email);
+
+    @Query(value = SQL.Members.GET_ALL_EMAILS, nativeQuery = true)
+    List<String> getAllEmails();
 }

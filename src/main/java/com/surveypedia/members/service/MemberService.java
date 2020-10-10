@@ -275,4 +275,8 @@ public class MemberService {
         }
         return jsonObject;
     }
+
+    public org.json.simple.JSONObject updateAllMembers() {
+
+    }
 }

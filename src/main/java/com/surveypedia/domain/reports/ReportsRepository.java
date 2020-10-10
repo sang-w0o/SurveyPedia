@@ -19,4 +19,7 @@ public interface ReportsRepository extends JpaRepository<Reports, Integer> {
     @Query(value = SQL.Reports.REMOVE_REPORT_BY_S_CODE, nativeQuery = true)
     void remove(Integer s_code);
 
+    @Query(value = SQL.Reports.GET_ALL_REPORTED_S_CODE, nativeQuery = true)
+    List<Integer> getAllReportedS_Codes();
+
 }
