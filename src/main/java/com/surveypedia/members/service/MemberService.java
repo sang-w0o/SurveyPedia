@@ -263,11 +263,9 @@ public class MemberService {
         try {
             HttpSession session = request.getSession(false);
             if (session == null || session.getAttribute("userInfo") == null) {
-                System.out.println("SESSION IS NULL");
                 throw new MemberAdminAccessException();
             }
             Members member = (Members)session.getAttribute("userInfo");
-            System.out.println(member.getEmail());
             if(!member.getEmail().equals("admin@surveypro.com")) {
                 throw new MemberAdminAccessException();
             }
