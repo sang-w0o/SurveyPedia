@@ -5,7 +5,6 @@ function showList() {
 		type: 'get',
 		success: function(data) {
 			if (data.errno != 0) {
-				console.log(data);
 				return;
 			}
 			
@@ -35,7 +34,6 @@ function showList() {
 		type: 'get',
 		success: function(data) {
 			if (data.errno != 0) {
-				console.log(data);
 				return;
 			}
 			
@@ -51,7 +49,6 @@ function showList() {
 					'<li>' + sInfo.end_date + '</li>' +
 					'<li>' + sInfo.spare_sample_num + '</li>' +							
 					'</ul>');
-				console.log("LINE 54 : s_code = " + sInfo.s_code);
 				$(obj).data('s_code', sInfo.s_code);
 				$(obj).data('respondent', resp);
 				$(obj).bindListClick();	
@@ -65,7 +62,6 @@ function showList() {
 		type: 'get',
 		success: function(data) {
 			if (data.errno != 0) {
-				console.log(data);
 				return;
 			}
 	

@@ -66,8 +66,6 @@ $.getAllReports = function(){
 
 $.fn.bindBtnApprove = function(){
 	$(this).click(function(){
-		console.log($(this).closest('ul').data('s_code'));
-		
 		$.ajax({
 			url:'../ReportApprove.do',
 			type:'post',

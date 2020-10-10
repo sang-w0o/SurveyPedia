@@ -50,7 +50,6 @@ $.fn.bindPurchaseClick = function(){
 			success : function(data){
 				if(data.result){
 					alert("구매에 성공했습니다.\n'내 설문 보기'의 '구매한 설문 보기'에서 확인하시기 바랍니다.");
-					console.log('구매 버튼 누른 후 Update( )호출');
 					location.reload();
 				}
 				else{

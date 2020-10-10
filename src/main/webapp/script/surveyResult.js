@@ -1,6 +1,5 @@
 $.fn.bindResultClick = function(){
 	this.click(function(){
-		console.log($(this).closest('ul').attr("id"));
 		$('.subjectiveR').find('ul').css('display',"none");
 		$('.subjectiveR').find('ul#'+$(this).closest('ul').attr("id")+'').css("display","block");
 		$('#subTitle').css("display","block");

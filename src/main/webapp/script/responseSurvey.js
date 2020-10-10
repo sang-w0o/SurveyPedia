@@ -325,7 +325,6 @@ $(document).ready(function(){
 	$('#btnInterest').bindAddInterest();
 	
 	var address = unescape(location.href);
-	console.log(address);
 	var loc_s_code = address.indexOf('s_code', 0);
 	var loc_respondent = address.indexOf('respondent', 0);
 	var s_code = '';
