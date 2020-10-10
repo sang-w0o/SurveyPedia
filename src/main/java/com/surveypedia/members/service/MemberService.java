@@ -49,7 +49,7 @@ public class MemberService {
                 request.getSession().setAttribute("userInfo", member);
                 request.getSession().setAttribute("result", true);
                 jsonObject.put("errno", 0);
-                jsonObject.put("message", "로그인 성공");
+                jsonObject.put("message", member.getNick() + "님 환영합니다!");
             } else throw new MemberLoginException();
         } catch(MemberException exception) {
             jsonObject = ObjectMaker.getJSONObjectWithException(exception);
