@@ -213,4 +213,8 @@ public class SQL {
     public class SubjectiveResults{
         public static final String GET_ANSWERS_BY_S_CODE_AND_Q_NUMBER = "SELECT answer FROM subjectiveresults WHERE s_code=? AND q_number=?";
     }
+
+    public class Reports {
+        public static final String REMOVE_REPORT_BY_S_CODE = "DELETE FROM reports WHERE s_code=?";
+    }
 }

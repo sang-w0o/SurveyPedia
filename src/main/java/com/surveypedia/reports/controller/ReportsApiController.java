@@ -32,11 +32,11 @@ public class ReportsApiController {
 
     @PutMapping("/ReportApprove.do")
     public void approve(HttpServletRequest request, HttpServletResponse response) {
-
+        WriteToClient.send(response, reportsService.approve(request));
     }
 
     @PutMapping("/ReportRemove.do")
     public void remove(HttpServletRequest request, HttpServletResponse response) {
-
+        WriteToClient.send(response, reportsService.remove(request));
     }
 }

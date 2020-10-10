@@ -84,12 +84,10 @@ $.fn.bindBtnApprove = function(){
 }
 $.fn.bindBtnRemove = function(){
 	$(this).click(function(){
+		let s_code = $(this).closest('ul').data('s_code');
 		$.ajax({
-			url:'../ReportRemove.do',
-			type:'post',
-			data:{
-				s_code : $(this).closest('ul').data('s_code')
-			},
+			url:'../ReportRemove.do?s_code='+s_code,
+			type:'PUT',
 			success:function(data){
 				if(data.result){
 					alert(data.message);

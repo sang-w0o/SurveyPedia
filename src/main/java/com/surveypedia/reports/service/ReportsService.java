@@ -6,8 +6,10 @@ import com.surveypedia.domain.reports.ReportsRepository;
 import com.surveypedia.domain.surveys.SurveysRepository;
 import com.surveypedia.reports.dto.ReportInsertRequestDto;
 import com.surveypedia.reports.dto.ReportResponseDto;
+import com.surveypedia.reports.exception.ReportApproveException;
 import com.surveypedia.reports.exception.ReportCheckException;
 import com.surveypedia.reports.exception.ReportInsertException;
+import com.surveypedia.reports.exception.ReportRemoveException;
 import com.surveypedia.tools.ObjectMaker;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -64,7 +66,7 @@ public class ReportsService {
     public org.json.simple.JSONObject getAllReports() {
         org.json.simple.JSONObject jsonObject = ObjectMaker.getSimpleJSONObject();
         org.json.simple.JSONArray jsonArray = ObjectMaker.getSimpleJSONArray();
-        List<ReportResponseDto> reportsList = reportsRepository.findAll().stream().map(ReportResponseDto::new).collect(Collectors.toList());
+        List<ReportResponseDto> reportsList = reportsRepository.findByReportstate(ReportState.N).stream().map(ReportResponseDto::new).collect(Collectors.toList());
         for(ReportResponseDto dto : reportsList) {
             org.json.simple.JSONObject jTemp = ObjectMaker.getSimpleJSONObject();
             jTemp.putAll(dto.convertMap());
@@ -72,6 +74,37 @@ public class ReportsService {
             jsonArray.add(jTemp);
         }
         jsonObject.put("reports", jsonArray);
+        return jsonObject;
+    }
+
+    @Transactional
+    @SuppressWarnings("unchecked")
+    public org.json.simple.JSONObject approve(HttpServletRequest request) {
+        org.json.simple.JSONObject jsonObject = ObjectMaker.getSimpleJSONObject();
+        int s_code = Integer.parseInt(request.getParameter("s_code"));
+        try {
+            Reports report = reportsRepository.findByScodeAndReportstate(s_code, ReportState.N);
+            report.updateReportState(ReportState.Y);
+            jsonObject.put("result", true);
+            jsonObject.put("message", "신고 승인 처리가 완료 되었습니다.");
+        } catch(Exception exception) {
+            jsonObject = ObjectMaker.getJSONObjectWithException(new ReportApproveException());
+        }
+        return jsonObject;
+    }
+
+    @Transactional
+    @SuppressWarnings("unchecked")
+    public org.json.simple.JSONObject remove(HttpServletRequest request) {
+        org.json.simple.JSONObject jsonObject = ObjectMaker.getSimpleJSONObject();
+        int s_code = Integer.parseInt(request.getParameter("s_code"));
+        try {
+            reportsRepository.remove(s_code);
+            jsonObject.put("result", true);
+            jsonObject.put("message", "신고 반려 처리가 완료 되었습니다.");
+        } catch(Exception exception) {
+            jsonObject = ObjectMaker.getJSONObjectWithException(new ReportRemoveException());
+        }
         return jsonObject;
     }
 }
