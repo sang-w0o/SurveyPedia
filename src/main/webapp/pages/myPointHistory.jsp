@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>포인트 사용 내역</title>
 <script src="../script/jquery-3.5.0.min.js"></script>
 <script src="../script/myPointHistory.js"></script>
 <link rel="stylesheet" href="../css/myPointHistory.css">
