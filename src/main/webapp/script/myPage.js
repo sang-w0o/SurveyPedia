@@ -53,7 +53,7 @@ $.Update = function(){
 		success:function(data){
 			if(data.result){
 				$('.myPage > ul > li:nth-child(3)').remove();
-				let li = "<li id='point'>보유 포인트 : " + data.point + "<a id='btnMyPoint' href='myPointHistory.jsp?email=" + data.email + "'>내역보기</a></li>";
+				let li = "<li id='point'>보유 포인트 : " + data.point + "<a id='btnMyPoint' href='myPointHistory.jsp'>내역보기</a></li>";
 				$('.myPage > ul > li:nth-child(2)').after(li);
 			}
 		}
