@@ -217,6 +217,6 @@ public class SQL {
 
     public static class Reports {
         public static final String REMOVE_REPORT_BY_S_CODE = "DELETE FROM reports WHERE s_code=?";
-        public static final String GET_ALL_REPORTED_S_CODE = "SELECT s_code FROM reports WHERE r_state='Y";
+        public static final String GET_ALL_REPORTED_S_CODE = "SELECT s_code FROM reports WHERE r_state='Y'";
     }
 }
