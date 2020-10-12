@@ -69,9 +69,9 @@
 				</div>
 			</div>
 		</div>
-	<div class="bottom">
+	<%--<div class="bottom">
 		<div id="ad">광고 띄우기</div>
-	</div>
+	</div>--%>
 </div>
 
 </body>
