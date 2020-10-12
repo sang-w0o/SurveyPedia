@@ -36,7 +36,6 @@
 <link rel="stylesheet" href="../css/topMenu.css"> 
 </head>
 <body>
-<body>
 <div class="wrap">
 	<div class="top">
 		<div id="logo">&nbsp;&nbsp;&nbsp;<span>S</span>urvey<span>P</span>edia</div>
@@ -69,9 +68,6 @@
 				</div>
 			</div>
 		</div>
-	<%--<div class="bottom">
-		<div id="ad">광고 띄우기</div>
-	</div>--%>
 </div>
 </body>
 </html>
