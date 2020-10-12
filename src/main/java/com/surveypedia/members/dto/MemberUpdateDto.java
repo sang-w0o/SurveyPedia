@@ -17,6 +17,7 @@ public class MemberUpdateDto {
     private int addPoint;
 
     public MemberUpdateDto(String email) {
+        this.email = email;
         this.reported_count = 0;
         this.participated_count = 0;
     }

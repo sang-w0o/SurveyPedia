@@ -333,10 +333,12 @@ public class MemberService {
 
                     Members member = membersRepository.findByEmail(dto.getEmail());
                     int pointToAdd = membersRepository.getPointToAdd(member.getG_name());
-                    pointHistoryRepository.save(new PointHistory(dto.getEmail(), 1, pointToAdd, PointHistoryType.A));
+                    pointHistoryRepository.save(new PointHistory(dto.getEmail(), 227, pointToAdd, PointHistoryType.A));
                 }
                 reportsRepository.deleteAll();
             }
+            jsonObject.put("result", true);
+            jsonObject.put("message", "등급 갱신이 완료되었습니다.");
         } catch(Exception exception) {
             exception.printStackTrace();
             jsonObject = ObjectMaker.getJSONObjectWithException(new MemberUpdateAllException());
