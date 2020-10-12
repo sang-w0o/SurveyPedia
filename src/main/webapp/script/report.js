@@ -25,7 +25,7 @@ $.fn.updateAllGrades = function(){
 	$(this).click(function(){
 		$.ajax({
 			url:'../UpdateAllMembers.do',
-			type:'post',
+			type:'PUT',
 			success:function(data){
 				if(data.result){
 					alert(data.message);

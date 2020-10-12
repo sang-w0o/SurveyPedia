@@ -32,4 +32,12 @@ public interface MembersRepository extends JpaRepository<Members, String> {
 
     @Query(value = SQL.Members.GET_ALL_EMAILS, nativeQuery = true)
     List<String> getAllEmails();
+
+    @Transactional
+    @Modifying
+    @Query(value = SQL.Members.UPDATE_GRADE_BY_EMAIL, nativeQuery = true)
+    void updateGrade(String g_name, String email);
+
+    @Query(value = SQL.Members.GET_POINT_BY_GRADE, nativeQuery = true)
+    Integer getPointToAdd(String g_name);
 }

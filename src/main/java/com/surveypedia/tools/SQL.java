@@ -160,6 +160,8 @@ public class SQL {
         public static final String MEMBER_SIGNUP = "INSERT INTO members VALUES(?, PASSWORD(?), ?, DEFAULT, 'IRON')";
         public static final String MEMBER_POINT = "SELECT IFNULL(SUM(p.pointchange), 0) FROM members m NATURAL JOIN pointhistory p WHERE m.email = ?";
         public static final String GET_ALL_EMAILS = "SELECT email FROM members";
+        public static final String UPDATE_GRADE_BY_EMAIL = "UPDATE members SET g_name=? WHERE email=?";
+        public static final String GET_POINT_BY_GRADE = "SELECT g_point FROM grades WHERE g_name=?";
     }
 
     public static class Survey {

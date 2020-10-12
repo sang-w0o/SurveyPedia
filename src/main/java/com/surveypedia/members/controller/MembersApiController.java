@@ -66,4 +66,9 @@ public class MembersApiController {
     public void checkAdminAccess(HttpServletRequest request, HttpServletResponse response) {
         WriteToClient.send(response, memberService.checkAdminAccess(request));
     }
+
+    @PutMapping("/UpdateAllMembers.do")
+    public void updateAll(HttpServletResponse response) {
+        WriteToClient.send(response, memberService.updateAllMembers());
+    }
 }

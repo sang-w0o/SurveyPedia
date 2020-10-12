@@ -2,10 +2,17 @@ package com.surveypedia.members.service;
 
 import com.surveypedia.domain.members.Members;
 import com.surveypedia.domain.members.MembersRepository;
+import com.surveypedia.domain.pointhistory.PointHistory;
+import com.surveypedia.domain.pointhistory.PointHistoryRepository;
+import com.surveypedia.domain.pointhistory.PointHistoryType;
+import com.surveypedia.domain.reports.ReportsRepository;
+import com.surveypedia.domain.surveys.Survey;
+import com.surveypedia.domain.surveys.SurveysRepository;
 import com.surveypedia.domain.withdrawed.Withdrawed;
 import com.surveypedia.domain.withdrawed.WithdrawedRepository;
 import com.surveypedia.members.dto.MemberInsertRequestDto;
 import com.surveypedia.members.dto.MemberPassUpdateRequestDto;
+import com.surveypedia.members.dto.MemberUpdateDto;
 import com.surveypedia.members.exception.*;
 import com.surveypedia.tools.ObjectMaker;
 import lombok.RequiredArgsConstructor;
@@ -21,9 +28,8 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.Date;
-import java.util.Properties;
-import java.util.Random;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -31,6 +37,9 @@ public class MemberService {
 
     private final MembersRepository membersRepository;
     private final WithdrawedRepository withdrawedRepository;
+    private final ReportsRepository reportsRepository;
+    private final SurveysRepository surveysRepository;
+    private final PointHistoryRepository pointHistoryRepository;
 
     @Transactional
     @SuppressWarnings("unchecked")
@@ -275,8 +284,63 @@ public class MemberService {
         }
         return jsonObject;
     }
-/*
-    public org.json.simple.JSONObject updateAllMembers() {
 
-    }*/
+    @Transactional
+    @SuppressWarnings("unchecked")
+    public org.json.simple.JSONObject updateAllMembers() {
+        org.json.simple.JSONObject jsonObject = ObjectMaker.getSimpleJSONObject();
+        try {
+            List<MemberUpdateDto> members = membersRepository.getAllEmails().stream().map(MemberUpdateDto::new).collect(Collectors.toList());
+            List<Integer> reportedScodes = reportsRepository.getAllReportedS_Codes();
+            List<String> reportedWriters = new ArrayList<>();
+            for(Integer s_code : reportedScodes) {
+                Survey survey = surveysRepository.findByScode(s_code);
+                reportedWriters.add(survey.getEmail());
+            }
+            for(int i = 0; i < members.size(); i++) {
+                for (int j = 0; j < reportedWriters.size(); j++) {
+                    if (members.get(i).getEmail().equals(reportedWriters.get(j))) {
+                        members.get(i).addReportedCount();
+                    }
+                }
+                for (MemberUpdateDto dto : members) {
+                    dto.setParticipated_count(pointHistoryRepository.getParticipateCount(dto.getEmail()));
+                    int pCount = dto.getParticipated_count();
+                    if (pCount < 10) {
+                        membersRepository.updateGrade("IRON", dto.getEmail());
+                    } else if (pCount < 20) {
+                        membersRepository.updateGrade("BRONZE", dto.getEmail());
+                    } else if (pCount < 30) {
+                        membersRepository.updateGrade("SILVER", dto.getEmail());
+                    } else {
+                        membersRepository.updateGrade("GOLD", dto.getEmail());
+                    }
+                    if (dto.getReported_count() >= 4) {
+                        switch (dto.getG_name()) {
+                            case "IRON":
+                                break;
+                            case "BRONZE":
+                                membersRepository.updateGrade("IRON", dto.getEmail());
+                                break;
+                            case "SILVER":
+                                membersRepository.updateGrade("BRONZE", dto.getEmail());
+                                break;
+                            case "GOLD":
+                                membersRepository.updateGrade("SILVER", dto.getEmail());
+                                break;
+                        }
+                    }
+
+                    Members member = membersRepository.findByEmail(dto.getEmail());
+                    int pointToAdd = membersRepository.getPointToAdd(member.getG_name());
+                    pointHistoryRepository.save(new PointHistory(dto.getEmail(), 1, pointToAdd, PointHistoryType.A));
+                }
+                reportsRepository.deleteAll();
+            }
+        } catch(Exception exception) {
+            exception.printStackTrace();
+            jsonObject = ObjectMaker.getJSONObjectWithException(new MemberUpdateAllException());
+        }
+        return jsonObject;
+    }
 }
