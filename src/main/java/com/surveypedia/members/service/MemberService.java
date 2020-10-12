@@ -333,7 +333,7 @@ public class MemberService {
 
                     Members member = membersRepository.findByEmail(dto.getEmail());
                     int pointToAdd = membersRepository.getPointToAdd(member.getG_name());
-                    pointHistoryRepository.save(new PointHistory(dto.getEmail(), 227, pointToAdd, PointHistoryType.A));
+                    pointHistoryRepository.save(new PointHistory(dto.getEmail(), 1, pointToAdd, PointHistoryType.A));
                 }
                 reportsRepository.deleteAll();
             }
