@@ -309,7 +309,7 @@ public class SurveyService {
             int pageCount = (int) Math.ceil((double) totalRecords / PAGESIZE);
             switch (mode) {
                 case "first":
-                    page = 1;
+                    page = 0;
                     break;
                 case "last":
                     page = pageCount;
@@ -330,7 +330,7 @@ public class SurveyService {
             List<SurveyCategoryInfoDto> list = null;
             switch (myType) {
                 case "MYCURRENT":
-                    list = surveysRepository.getCurrentSurveyInfoByEmail(email, page, PAGESIZE).stream().map(SurveyCategoryInfoDto::new).collect(Collectors.toList());
+                    list = surveysRepository.getCurrentSurveyInfoByEmail(email, startPos, PAGESIZE).stream().map(SurveyCategoryInfoDto::new).collect(Collectors.toList());
                     break;
                 case "MYENDED":
                     list = surveysRepository.getEndedSurveyInfoByEmail(email, startPos, PAGESIZE).stream().map(SurveyCategoryInfoDto::new).collect(Collectors.toList());
