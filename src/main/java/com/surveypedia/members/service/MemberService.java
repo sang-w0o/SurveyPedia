@@ -293,50 +293,50 @@ public class MemberService {
             List<MemberUpdateDto> members = membersRepository.getAllEmails().stream().map(MemberUpdateDto::new).collect(Collectors.toList());
             List<Integer> reportedScodes = reportsRepository.getAllReportedS_Codes();
             List<String> reportedWriters = new ArrayList<>();
-            for(Integer s_code : reportedScodes) {
+            for (Integer s_code : reportedScodes) {
                 Survey survey = surveysRepository.findByScode(s_code);
                 reportedWriters.add(survey.getEmail());
             }
-            for(int i = 0; i < members.size(); i++) {
+            for (int i = 0; i < members.size(); i++) {
                 for (int j = 0; j < reportedWriters.size(); j++) {
                     if (members.get(i).getEmail().equals(reportedWriters.get(j))) {
                         members.get(i).addReportedCount();
                     }
                 }
-                for (MemberUpdateDto dto : members) {
-                    dto.setParticipated_count(pointHistoryRepository.getParticipateCount(dto.getEmail()));
-                    int pCount = dto.getParticipated_count();
-                    if (pCount < 10) {
-                        membersRepository.updateGrade("IRON", dto.getEmail());
-                    } else if (pCount < 20) {
-                        membersRepository.updateGrade("BRONZE", dto.getEmail());
-                    } else if (pCount < 30) {
-                        membersRepository.updateGrade("SILVER", dto.getEmail());
-                    } else {
-                        membersRepository.updateGrade("GOLD", dto.getEmail());
-                    }
-                    if (dto.getReported_count() >= 4) {
-                        switch (dto.getG_name()) {
-                            case "IRON":
-                                break;
-                            case "BRONZE":
-                                membersRepository.updateGrade("IRON", dto.getEmail());
-                                break;
-                            case "SILVER":
-                                membersRepository.updateGrade("BRONZE", dto.getEmail());
-                                break;
-                            case "GOLD":
-                                membersRepository.updateGrade("SILVER", dto.getEmail());
-                                break;
-                        }
-                    }
-
-                    Members member = membersRepository.findByEmail(dto.getEmail());
-                    int pointToAdd = membersRepository.getPointToAdd(member.getG_name());
-                    pointHistoryRepository.save(new PointHistory(dto.getEmail(), 1, pointToAdd, PointHistoryType.A));
-                }
-                reportsRepository.deleteAll();
             }
+            for (MemberUpdateDto dto : members) {
+                dto.setParticipated_count(pointHistoryRepository.getParticipateCount(dto.getEmail()));
+                int pCount = dto.getParticipated_count();
+                if (pCount < 10) {
+                    membersRepository.updateGrade("IRON", dto.getEmail());
+                } else if (pCount < 20) {
+                    membersRepository.updateGrade("BRONZE", dto.getEmail());
+                } else if (pCount < 30) {
+                    membersRepository.updateGrade("SILVER", dto.getEmail());
+                } else {
+                    membersRepository.updateGrade("GOLD", dto.getEmail());
+                }
+                if (dto.getReported_count() >= 4) {
+                    switch (dto.getG_name()) {
+                        case "IRON":
+                            break;
+                        case "BRONZE":
+                            membersRepository.updateGrade("IRON", dto.getEmail());
+                            break;
+                        case "SILVER":
+                            membersRepository.updateGrade("BRONZE", dto.getEmail());
+                            break;
+                        case "GOLD":
+                            membersRepository.updateGrade("SILVER", dto.getEmail());
+                            break;
+                    }
+                }
+
+                Members member = membersRepository.findByEmail(dto.getEmail());
+                int pointToAdd = membersRepository.getPointToAdd(member.getG_name());
+                pointHistoryRepository.save(new PointHistory(dto.getEmail(), 1, pointToAdd, PointHistoryType.A));
+            }
+            reportsRepository.deleteAll();
             jsonObject.put("result", true);
             jsonObject.put("message", "등급 갱신이 완료되었습니다.");
         } catch(Exception exception) {
