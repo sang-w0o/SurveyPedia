@@ -389,17 +389,15 @@ public class SurveyService {
             int sample_num = pointHistoryRepository.getSampleCounts(s_code);
             List<Questions> questionsList = questionsRepository.findByScode(s_code);
             ArrayList<SurveyResultDto> resultList = new ArrayList<>();
-            List<Integer> choicesList = null;
-            List<String> subjectiveList = null;
-            HashMap<String, Integer> choiceResults = new HashMap<>();
             for(Questions question : questionsList) {
+                HashMap<String, Integer> choiceResults = new HashMap<>();
                 SurveyResultDto resultDto = new SurveyResultDto();
                 resultDto.setS_code(s_code);
                 resultDto.setQ_number(question.getQnumber());
                 resultDto.setQ_title(question.getQtitle());
                 resultDto.setQ_type(question.getQtype());
                 if(question.getQtype().equals("C")) {
-                    choicesList = choicesRepository.getChoiceNumbers(s_code, question.getQnumber());
+                    List<Integer> choicesList = choicesRepository.getChoiceNumbers(s_code, question.getQnumber());
                     for(Integer choice_number : choicesList) {
                         int value = choiceResultsRepository.getChoiceCounts(s_code, question.getQnumber(), choice_number);
                         String choice_content = choicesRepository.findByScodeAndQnumberAndChoicenum(s_code, question.getQnumber(), choice_number).getChoicecontent();
@@ -407,7 +405,7 @@ public class SurveyService {
                     }
                     resultDto.setChoices(choiceResults);
                 } else {
-                    subjectiveList = subjectiveResultsRepository.getAnswers(s_code, question.getQnumber());
+                    List<String> subjectiveList = subjectiveResultsRepository.getAnswers(s_code, question.getQnumber());
                     resultDto.setSubjectives(subjectiveList);
                 }
                 resultList.add(resultDto);
