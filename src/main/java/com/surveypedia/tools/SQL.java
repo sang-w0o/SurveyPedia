@@ -24,24 +24,20 @@ public class SQL {
                 "AND DATE(DATE_ADD(sub1.writtendate, INTERVAL sub1.g_deadLine DAY)) > DATE(NOW())\n" +
                 "ORDER by g_sample_num - IFNULL(sample_num, 0) LIMIT\t10;";
 
-        public static final String SURVEY_INFO_BY_END_SURVEY = "SELECT\r\n" + "		sub1.s_code s_code,\r\n" + "		nick writer, \r\n"
-                + "		s_title, \r\n" + "		interest_count, \r\n" + "		DATE(end_date) end_date,\r\n"
-                + "		((IFNULL(sample_num, 0) * 2) + interest_count) price\r\n" + "FROM (SELECT \r\n"
-                + "				A.s_code, \r\n" + "				C.nick, \r\n" + "				A.s_title, \r\n"
-                + "				A.writtendate,\r\n" + "				A.s_reported,\r\n"
-                + "				D.g_sample_num,\r\n"
-                + "				DATE_ADD(A.writtendate, INTERVAL D.g_deadLine DAY) end_date,\r\n"
-                + "				A.s_public\r\n" + "		FROM survey A, members C, grades D \r\n"
-                + "		WHERE A.email = C.email AND C.g_name = D.g_name) sub1 \r\n" + "		LEFT JOIN \r\n"
-                + "	  (SELECT \r\n" + "	  			s_code, \r\n" + "				COUNT(s_code) interest_count\r\n"
-                + "		FROM interests \r\n" + "		GROUP BY s_code) sub2 ON (sub1.s_code = sub2.s_code)\r\n"
-                + "		LEFT JOIN\r\n" + "		(SELECT \r\n" + "			s_code, COUNT(s_code) sample_num\r\n"
-                + "		FROM\r\n" + "			pointhistory\r\n" + "		WHERE ph_type='P'\r\n"
-                + "		GROUP BY\r\n" + "			s_code) sub3 ON (sub1.s_code = sub3.s_code)\r\n" + "WHERE \r\n"
-                + "		sub1.s_reported != 'Y'\r\n" + "		AND sub1.s_public = 'Y'\r\n"
-                + "		AND (g_sample_num - IFNULL(sample_num, 0) = 0\r\n"
-                + "		OR DATE(NOW()) >= DATE(end_date))\r\n" + "ORDER BY\r\n"
-                + "	TIMESTAMPDIFF(DAY, NOW(), end_date) DESC\r\n" + "LIMIT\r\n" + "	10;";
+        public static final String SURVEY_INFO_BY_END_SURVEY = "SELECT sub1.s_code s_code, nick writer, s_title, ifnull(interest_count, 0) interests, DATE(end_date) end_date,\n" +
+                "ifnull(sample_num, 0) * 2 + ifnull(interest_count, 0) price FROM (SELECT \n" +
+                "A.s_code, C.nick, A.s_title, A.writtendate, A.s_reported, D.g_sample_num,\n" +
+                "DATE_ADD(A.writtendate, INTERVAL D.g_deadLine DAY) end_date, A.s_public\n" +
+                "FROM survey A, members C, grades D WHERE A.email = C.email AND C.g_name = D.g_name) sub1 \n" +
+                "LEFT JOIN (SELECT s_code, COUNT(s_code) interest_count FROM interests \n" +
+                "GROUP BY s_code) sub2 ON (sub1.s_code = sub2.s_code) LEFT JOIN\n" +
+                "(SELECT s_code, COUNT(s_code) sample_num FROM pointhistory WHERE ph_type='P'\n" +
+                "GROUP BY s_code) sub3 ON (sub1.s_code = sub3.s_code)\n" +
+                "WHERE sub1.s_reported != 'Y' AND sub1.s_public = 'Y'\n" +
+                "AND (g_sample_num - IFNULL(sample_num, 0) = 0\n" +
+                "OR DATE(NOW()) >= DATE(end_date))\n" +
+                "ORDER BY TIMESTAMPDIFF(DAY, NOW(), end_date) DESC\n" +
+                "LIMIT 10;";
 
         public static final String SURVEY_CURRENT_INFO_BY_EMAIL = "SELECT sub1.s_code s_code, nick writer, s_title, IFNULL(interest_count,0), DATE(writtendate) written_date, \n" +
                 "DATE(end_date) end_date FROM (SELECT A.s_code, A.email, C.nick, A.s_title, A.writtendate, \n" +

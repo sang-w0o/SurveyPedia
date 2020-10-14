@@ -33,8 +33,8 @@ public class SurveyEndInfoDto extends SurveyInfoDto {
         this.s_code = Integer.parseInt(objects[0].toString());
         this.writer = objects[1].toString();
         this.s_title = objects[2].toString();
-        this.interest_count = Integer.parseInt(objects[3] == null ? "0" : objects[3].toString());
+        this.interest_count = Integer.parseInt(objects[3].toString());
         this.end_date = objects[4].toString();
-        this.price = Integer.parseInt(objects[5] == null ? "0" : objects[5].toString());
+        this.price = Integer.parseInt(objects[5].toString());
     }
 }
