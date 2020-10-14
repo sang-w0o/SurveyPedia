@@ -86,6 +86,7 @@ public class SurveyService {
                 jsonObject.put("respondent", ((Members) request.getSession(false).getAttribute("userInfo")).getEmail());
             }
         } catch(Exception exception) {
+            exception.printStackTrace();
             jsonObject = ObjectMaker.getJSONObjectWithException(exception);
             jsonObject.put("errno", 1);
         }
