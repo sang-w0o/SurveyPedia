@@ -9,6 +9,8 @@ import com.surveypedia.domain.pointhistory.PointHistoryRepository;
 import com.surveypedia.domain.pointhistory.PointHistoryType;
 import com.surveypedia.domain.questions.Questions;
 import com.surveypedia.domain.questions.QuestionsRepository;
+import com.surveypedia.domain.reports.ReportType;
+import com.surveypedia.domain.reports.ReportsRepository;
 import com.surveypedia.domain.subjectiveresults.SubjectiveResultsRepository;
 import com.surveypedia.domain.surveys.Survey;
 import com.surveypedia.domain.surveys.SurveysRepository;
@@ -39,6 +41,7 @@ public class SurveyService {
     private final InterestsRepository interestsRepository;
     private final QuestionsRepository questionsRepository;
     private final ChoicesRepository choicesRepository;
+    private final ReportsRepository reportsRepository;
 
     @Transactional(readOnly = true)
     @SuppressWarnings("unchecked")
@@ -222,12 +225,16 @@ public class SurveyService {
             if(subjectiveResultsRepository.findByScodeAndRespondent(s_code, respondent).size() != 0) {
                 throw new SurveyCheckResponseException();
             }
-
             if(choiceResultsRepository.findByScodeAndRespondent(s_code, respondent).size() != 0) {
                 throw new SurveyCheckResponseException();
             }
+            if(reportsRepository.findByScodeAndReporterAndRtype(s_code, respondent, ReportType.W) != null) {
+                throw new Exception("신고한 설문에는 참여할 수 없습니다.");
+            }
             jsonObject.put("result", true);
         } catch(SurveyRespondentIsWriterException | SurveyCheckResponseException exception) {
+            jsonObject = ObjectMaker.getJSONObjectWithException(exception);
+        } catch(Exception exception) {
             jsonObject = ObjectMaker.getJSONObjectWithException(exception);
         }
         return jsonObject;

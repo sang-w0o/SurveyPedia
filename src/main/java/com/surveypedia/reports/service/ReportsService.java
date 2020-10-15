@@ -56,6 +56,7 @@ public class ReportsService {
             jsonObject.put("result", true);
             jsonObject.put("message", "신고가 정상적으로 접수되었습니다.");
         } catch(Exception exception) {
+            exception.printStackTrace();
             jsonObject = ObjectMaker.getJSONObjectWithException(new ReportInsertException());
         }
         return jsonObject;

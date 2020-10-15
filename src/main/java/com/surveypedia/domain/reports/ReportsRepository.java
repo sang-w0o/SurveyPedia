@@ -13,6 +13,7 @@ public interface ReportsRepository extends JpaRepository<Reports, Integer> {
     Reports findByScodeAndReporter(Integer s_code, String reporter);
     List<Reports> findByReportstate(ReportState state);
     Reports findByScodeAndReportstate(Integer s_code, ReportState state);
+    Reports findByScodeAndReporterAndRtype(Integer s_code, String reporter, ReportType reportType);
 
     @Transactional
     @Modifying
